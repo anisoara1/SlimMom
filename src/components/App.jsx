@@ -1,16 +1,16 @@
-export const App = () => {
+import React from 'react';
+import { BrowserRouter as Router, Routes /* Route */ } from 'react-router-dom';
+import { HomePage } from 'pages/HomePage/HomePage';
+
+function App() {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
+    <Router>
+      <div>
+        <HomePage />
+        <Routes></Routes>
+      </div>
+    </Router>
   );
-};
+}
+
+export default App;
