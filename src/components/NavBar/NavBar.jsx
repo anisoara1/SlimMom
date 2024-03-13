@@ -38,7 +38,7 @@ export const Navbar = () => {
         }}
       >
         <li>
-          <Link to="" className={css.link}>
+          <Link to="/login" className={css.link}>
             <Typography
               sx={{
                 padding: '0',
@@ -54,7 +54,7 @@ export const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="" className={css.link}>
+          <Link to="/register" className={css.link}>
             <Typography
               sx={{
                 padding: '0',

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Typography, Box, Button, Modal, Fade, MenuList } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-export const IntakeModal = ({ open, handleClose }) => {
+export const DiaryPage = ({ open, handleClose }) => {
   return (
     <div>
       <Modal

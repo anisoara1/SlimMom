@@ -1,25 +1,91 @@
 import React from 'react';
-import css from '../IntakeCalc/IntakeCalc.module.css';
+import css from '../NavBar/NavBar.module.css';
+import { Link } from 'react-router-dom';
 import {
   Box,
-  FormControl,
+  MenuList,
   Typography,
   Radio,
   RadioGroup,
   FormControlLabel,
   TextField,
   Button,
+  FormControl,
 } from '@mui/material';
-import { IntakeModal } from 'components/Modal/Modal';
+import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded';
+import { DiaryPage } from 'pages/DiaryPage/DiaryPage';
 
-export const IntakeCalc = () => {
+export const CalculatorPage = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
   };
   return (
-    <div className={css.intake}>
+    <div className={css.navbar}>
+      <Box className={css.logo}>
+        <Link to="/SlimMom">
+          <Typography
+            className={css.logoTitle}
+            sx={{
+              fontFamily: 'Verdana, sans-serif',
+              fontSize: '24px',
+            }}
+          >
+            Slim<span className={css.logoColor}>Mom</span>
+          </Typography>
+        </Link>
+      </Box>
+      <HorizontalRuleRoundedIcon
+        sx={{
+          marginLeft: '100px',
+          fontSize: 'larger',
+          transform: 'rotate(90deg)',
+          color: '#21212133',
+        }}
+      />
+      <MenuList
+        sx={{
+          listStyle: 'none',
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '20px',
+          padding: '0',
+        }}
+      >
+        <li>
+          <Link to="/login" className={css.link}>
+            <Typography
+              sx={{
+                padding: '0',
+                fontWeight: '700',
+                fontSize: '14px',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                color: ' #9b9faa',
+              }}
+            >
+              Diary
+            </Typography>
+          </Link>
+        </li>
+        <li>
+          <Link to="/register" className={css.link}>
+            <Typography
+              sx={{
+                padding: '0',
+                fontWeight: '700',
+                fontSize: '14px',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                color: ' #9b9faa',
+              }}
+            >
+              Calculator
+            </Typography>
+          </Link>
+        </li>
+      </MenuList>
       <Box
         sx={{
           height: '80vh',
@@ -330,7 +396,7 @@ export const IntakeCalc = () => {
             Start losing weight
           </Typography>
         </Button>
-        <IntakeModal open={open} handleClose={() => setOpen(false)} />
+        <DiaryPage open={open} handleClose={() => setOpen(false)} />
       </Box>
     </div>
   );
