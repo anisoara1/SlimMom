@@ -1,402 +1,85 @@
 import React from 'react';
-import css from '../NavBar/NavBar.module.css';
+import css from '../CalculatorPage/CalculatorPage.module.css';
 import { Link } from 'react-router-dom';
-import {
-  Box,
-  MenuList,
-  Typography,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  TextField,
-  Button,
-  FormControl,
-} from '@mui/material';
+import { Box, MenuList, Typography } from '@mui/material';
 import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded';
-import { DiaryPage } from 'pages/DiaryPage/DiaryPage';
+import { IntakeCalc } from 'components/IntakeCalc/IntakeCalc';
+import { Calculator } from 'components/Calculator/Calculator';
 
 export const CalculatorPage = () => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
   return (
-    <div className={css.navbar}>
-      <Box className={css.logo}>
-        <Link to="/SlimMom">
-          <Typography
-            className={css.logoTitle}
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontSize: '24px',
-            }}
-          >
-            Slim<span className={css.logoColor}>Mom</span>
-          </Typography>
-        </Link>
-      </Box>
-      <HorizontalRuleRoundedIcon
-        sx={{
-          marginLeft: '100px',
-          fontSize: 'larger',
-          transform: 'rotate(90deg)',
-          color: '#21212133',
-        }}
-      />
-      <MenuList
-        sx={{
-          listStyle: 'none',
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '20px',
-          padding: '0',
-        }}
-      >
-        <li>
-          <Link to="/login" className={css.link}>
-            <Typography
-              sx={{
-                padding: '0',
-                fontWeight: '700',
-                fontSize: '14px',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                color: ' #9b9faa',
-              }}
-            >
-              Diary
-            </Typography>
-          </Link>
-        </li>
-        <li>
-          <Link to="/register" className={css.link}>
-            <Typography
-              sx={{
-                padding: '0',
-                fontWeight: '700',
-                fontSize: '14px',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                color: ' #9b9faa',
-              }}
-            >
-              Calculator
-            </Typography>
-          </Link>
-        </li>
-      </MenuList>
-      <Box
-        sx={{
-          height: '80vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-end',
-          justifyContent: 'space-evenly',
-          gap: '15px',
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: 'Verdana, sans-serif',
-            fontWeight: '700',
-            fontSize: '34px',
-            lineHeight: '1.4',
-            color: '#212121',
-            marginRight: '10px',
-          }}
-        >
-          Calculate your daily calorie <br /> intake right now
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '30px',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '40px',
-              paddingLeft: '20px',
-            }}
-          >
-            <FormControl
-              sx={{
-                '@media screen and (max-width: 450px)': {
-                  maxWidth: '300px',
-                },
-              }}
-            >
-              <TextField
-                variant="standard"
-                placeholder="Height *"
-                autoComplete="off"
+    <div className={css.calcPage}>
+      <Box>
+        <Box className={css.navbar}>
+          <Box className={css.logo}>
+            <Link to="/SlimMom">
+              <Typography
+                className={css.logoTitle}
                 sx={{
                   fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '700',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                  '& .MuiInput-underline:before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:after': {
-                    borderBottomColor: '#FC842D',
-                  },
+                  fontSize: '24px',
                 }}
-                name="name"
-                disableunderline="true"
-              />
-            </FormControl>
-            <FormControl
-              sx={{
-                '@media screen and (max-width: 450px)': {
-                  maxWidth: '300px',
-                },
-              }}
-            >
-              <TextField
-                variant="standard"
-                placeholder="Age *"
-                autoComplete="off"
-                sx={{
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '700',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                  '& .MuiInput-underline:before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:after': {
-                    borderBottomColor: '#FC842D',
-                  },
-                }}
-                name="telephone"
-                disableunderline="true"
-              />
-            </FormControl>
-            <FormControl
-              sx={{
-                '@media screen and (max-width: 450px)': {
-                  maxWidth: '300px',
-                },
-              }}
-            >
-              <TextField
-                variant="standard"
-                placeholder="Current weight *"
-                autoComplete="off"
-                sx={{
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '700',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                  '& .MuiInput-underline:before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:after': {
-                    borderBottomColor: '#FC842D',
-                  },
-                }}
-                name="email"
-                disableunderline="true"
-              />
-            </FormControl>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              gap: '40px',
-            }}
-          >
-            <FormControl
-              sx={{
-                '@media screen and (max-width: 450px)': {
-                  maxWidth: '300px',
-                },
-              }}
-            >
-              <TextField
-                variant="standard"
-                placeholder="Desired weight *"
-                autoComplete="off"
-                sx={{
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '700',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                  '& .MuiInput-underline:before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:after': {
-                    borderBottomColor: '#FC842D',
-                  },
-                }}
-                name="name"
-                disableunderline="true"
-              />
-            </FormControl>
-            <FormControl
-              sx={{
-                '@media screen and (max-width: 450px)': {
-                  maxWidth: '300px',
-                },
-              }}
-            >
-              <TextField
-                variant="standard"
-                placeholder="Blood type *"
-                autoComplete="off"
-                sx={{
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '700',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                  '& .MuiInput-underline:before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                    borderBottomColor: '#9B9FAA',
-                  },
-                  '& .MuiInput-underline:after': {
-                    borderBottomColor: '#FC842D',
-                  },
-                }}
-                name="email"
-                disableunderline="true"
-              />
-              <RadioGroup
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyItems: 'flex-start',
-                  gap: '10px',
-                }}
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
               >
-                <FormControlLabel
-                  value="1"
-                  control={
-                    <Radio
-                      sx={{
-                        color: '#E0E0E0',
-                        '&.Mui-checked': {
-                          color: '#fc842d',
-                        },
-                        padding: '5px',
-                        fontSize: 'smaller',
-                      }}
-                    />
-                  }
-                  label={<Typography sx={{ color: '#9B9FAA' }}>1</Typography>}
-                />
-                <FormControlLabel
-                  value="2"
-                  control={
-                    <Radio
-                      sx={{
-                        color: '#E0E0E0',
-                        '&.Mui-checked': {
-                          color: '#fc842d',
-                        },
-                        padding: '5px',
-                        fontSize: 'smaller',
-                      }}
-                    />
-                  }
-                  label={<Typography sx={{ color: '#9B9FAA' }}>2</Typography>}
-                />
-                <FormControlLabel
-                  value="3"
-                  control={
-                    <Radio
-                      sx={{
-                        color: '#E0E0E0',
-                        '&.Mui-checked': {
-                          color: '#fc842d',
-                        },
-                        padding: '5px',
-                        fontSize: 'smaller',
-                      }}
-                    />
-                  }
-                  label={<Typography sx={{ color: '#9B9FAA' }}>3</Typography>}
-                />
-                <FormControlLabel
-                  value="4"
-                  control={
-                    <Radio
-                      sx={{
-                        color: '#E0E0E0',
-                        '&.Mui-checked': {
-                          color: '#fc842d',
-                        },
-                        padding: '5px',
-                        fontSize: 'smaller',
-                      }}
-                    />
-                  }
-                  label={<Typography sx={{ color: '#9B9FAA' }}>4</Typography>}
-                />
-              </RadioGroup>
-            </FormControl>
+                Slim<span className={css.logoColor}>Mom</span>
+              </Typography>
+            </Link>
           </Box>
-        </Box>
-        <Button
-          onClick={handleOpen}
-          sx={{
-            boxShadow: '0 4px 10px 0 rgba(252, 132, 45, 0.5)',
-            background: ' #fc842d',
-            borderRadius: '30px',
-            width: '210px',
-            height: '43px',
-            '&:hover': {
-              backgroundColor: '#fc842d',
-            },
-            '&:active': {
-              backgroundColor: '#fc842d',
-            },
-          }}
-        >
-          <Typography
+          <HorizontalRuleRoundedIcon
             sx={{
-              textTransform: 'none',
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: ' 700',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              textAlign: 'center',
-              color: '#fff',
+              marginLeft: '100px',
+              fontSize: 'larger',
+              transform: 'rotate(90deg)',
+              color: '#21212133',
+            }}
+          />
+          <MenuList
+            sx={{
+              listStyle: 'none',
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '20px',
+              padding: '0',
             }}
           >
-            Start losing weight
-          </Typography>
-        </Button>
-        <DiaryPage open={open} handleClose={() => setOpen(false)} />
+            <li>
+              <Link to="/diary" className={css.link}>
+                <Typography
+                  sx={{
+                    padding: '0',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: ' #9b9faa',
+                  }}
+                >
+                  Diary
+                </Typography>
+              </Link>
+            </li>
+            <li>
+              <Link to="/calc" className={css.link}>
+                <Typography
+                  sx={{
+                    padding: '0',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: ' #9b9faa',
+                  }}
+                >
+                  Calculator
+                </Typography>
+              </Link>
+            </li>
+          </MenuList>
+        </Box>
+
+        <IntakeCalc />
+      </Box>
+      <Box>
+        <Calculator />
       </Box>
     </div>
   );

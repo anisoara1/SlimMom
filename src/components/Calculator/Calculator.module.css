@@ -1,0 +1,10 @@
+.calculator {
+  height: 100vh;
+  width: 80vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background: url('../../images/calculatorBg.png') right/ cover no-repeat,
+    url('../../images/calcBlur.png') right / cover no-repeat;
+}

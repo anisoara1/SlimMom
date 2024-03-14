@@ -1,6 +1,7 @@
 import React from 'react';
 import css from '../IntakeCalc/IntakeCalc.module.css';
 import { Box, FormControl, Typography, TextField, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export const Login = () => {
   return (
@@ -119,6 +120,8 @@ export const Login = () => {
                 backgroundColor: '#fc842d',
               },
             }}
+            component={Link}
+            to="/calc"
           >
             <Typography
               sx={{
@@ -148,6 +151,8 @@ export const Login = () => {
                 backgroundColor: '#fc842d',
               },
             }}
+            component={Link}
+            to="/calc"
           >
             <Typography
               sx={{
