@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/SlimMom/static/css/main.432cfec2.css",
-    "main.js": "/SlimMom/static/js/main.38310a7f.js",
+    "main.css": "/SlimMom/static/css/main.ef26d2f3.css",
+    "main.js": "/SlimMom/static/js/main.c80d8a37.js",
     "static/media/homeSlim.png": "/SlimMom/static/media/homeSlim.9defd18836199abce1ba.png",
     "static/media/calculatorBg.png": "/SlimMom/static/media/calculatorBg.7c36502e1648cc89b322.png",
     "index.html": "/SlimMom/index.html",
-    "main.432cfec2.css.map": "/SlimMom/static/css/main.432cfec2.css.map",
-    "main.38310a7f.js.map": "/SlimMom/static/js/main.38310a7f.js.map"
+    "main.ef26d2f3.css.map": "/SlimMom/static/css/main.ef26d2f3.css.map",
+    "main.c80d8a37.js.map": "/SlimMom/static/js/main.c80d8a37.js.map"
   },
   "entrypoints": [
-    "static/css/main.432cfec2.css",
-    "static/js/main.38310a7f.js"
+    "static/css/main.ef26d2f3.css",
+    "static/js/main.c80d8a37.js"
   ]
 }
