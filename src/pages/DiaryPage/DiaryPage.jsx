@@ -1,149 +1,85 @@
 import React from 'react';
 import css from '../DiaryPage/DiaryPage.module.css';
 import { Link } from 'react-router-dom';
-import { Typography, Box, Button, MenuList } from '@mui/material';
+import { Typography, Box, MenuList } from '@mui/material';
+import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded';
+import { Diary } from 'components/Diary/Diary';
+import { Calculator } from 'components/Calculator/Calculator';
 
-export const DiaryPage = ({ open, handleClose }) => {
+export const DiaryPage = () => {
   return (
-    <div>
-      <Box
-        className={css.intakeModal}
-        sx={{
-          background: '#FFFFFF',
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: 'Verdana, sans-serif',
-            fontWeight: '700',
-            fontize: '26px',
-            lineHeight: '1.4',
-            textAlign: 'center',
-            color: '#212121',
-          }}
-        >
-          Your recommended daily <br />
-          calorie intake is <br />
-          <span
+    <div className={css.calcPage}>
+      <Box>
+        <Box className={css.navbar}>
+          <Box className={css.logo}>
+            <Link to="/SlimMom">
+              <Typography
+                className={css.logoTitle}
+                sx={{
+                  fontFamily: 'Verdana, sans-serif',
+                  fontSize: '24px',
+                }}
+              >
+                Slim<span className={css.logoColor}>Mom</span>
+              </Typography>
+            </Link>
+          </Box>
+          <HorizontalRuleRoundedIcon
             sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '700',
-              fontSize: '48px',
-              letterSpacing: ' 0.04em',
-              textAlign: 'center',
-              color: '#264061',
+              marginLeft: '100px',
+              fontSize: 'larger',
+              transform: 'rotate(90deg)',
+              color: '#21212133',
+            }}
+          />
+          <MenuList
+            sx={{
+              listStyle: 'none',
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '20px',
+              padding: '0',
             }}
           >
-            .....
-          </span>
-          <span
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '700',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#212121',
-            }}
-          >
-            kcal
-          </span>
-        </Typography>
-        <MenuList
-          sx={{
-            borderTop: '1px solid #e0e0e0;',
-            width: '330px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-          }}
-        >
-          <Typography
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '700',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#212121',
-            }}
-          >
-            Foods you should not eat
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '400',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#9b9faa',
-            }}
-          >
-            1. Flour products{' '}
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '400',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#9b9faa',
-            }}
-          >
-            2. Milk
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '400',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#9b9faa',
-            }}
-          >
-            3. Red meat{' '}
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '400',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#9b9faa',
-            }}
-          >
-            4. Smoked meats
-          </Typography>
-        </MenuList>
-        <Button
-          sx={{
-            boxShadow: '0 4px 10px 0 rgba(252, 132, 45, 0.5)',
-            background: ' #fc842d',
-            borderRadius: '30px',
-            width: '210px',
-            height: '43px',
-            '&:hover': {
-              backgroundColor: '#fc842d',
-            },
-            '&:active': {
-              backgroundColor: '#fc842d',
-            },
-          }}
-          component={Link}
-          to="/login"
-        >
-          <Typography
-            sx={{
-              textTransform: 'none',
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: ' 700',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              textAlign: 'center',
-              color: '#fff',
-            }}
-          >
-            Start losing weight
-          </Typography>
-        </Button>
+            <li>
+              <Link to="/diary" className={css.link}>
+                <Typography
+                  sx={{
+                    padding: '0',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: ' #9b9faa',
+                  }}
+                >
+                  Diary
+                </Typography>
+              </Link>
+            </li>
+            <li>
+              <Link to="/calc" className={css.link}>
+                <Typography
+                  sx={{
+                    padding: '0',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: ' #9b9faa',
+                  }}
+                >
+                  Calculator
+                </Typography>
+              </Link>
+            </li>
+          </MenuList>
+        </Box>
+
+        <Diary />
+      </Box>
+      <Box>
+        <Calculator />
       </Box>
     </div>
   );

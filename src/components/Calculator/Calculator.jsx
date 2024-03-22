@@ -2,8 +2,22 @@ import React from 'react';
 import css from '../Calculator/Calculator.module.css';
 import { Typography, Box, MenuList, Button } from '@mui/material';
 import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../redux/auth/authSlice';
 
 export const Calculator = () => {
+  const dispatch = useDispatch();
+  const history = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    history('/SlimMom');
+  };
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const userName = searchParams.get('name');
+
   return (
     <div className={css.calculator}>
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -17,7 +31,7 @@ export const Calculator = () => {
             color: '#212121',
           }}
         >
-          Nick
+          {userName}
         </Typography>
         <HorizontalRuleRoundedIcon
           sx={{
@@ -26,7 +40,7 @@ export const Calculator = () => {
             color: '#9b9faa',
           }}
         />
-        <Button>
+        <Button onClick={handleLogout}>
           <Typography
             sx={{
               fontFamily: 'Verdana, sans-serif',

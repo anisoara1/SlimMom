@@ -1,12 +1,31 @@
-import React from 'react';
+import React /*  ,{ useState } */ from 'react';
 import css from '../IntakeCalc/IntakeCalc.module.css';
 import { Box, FormControl, Typography, TextField, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-
+/* import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
+ */
 export const Login = () => {
+  /* const dispatch = useDispatch();
+  const history = useNavigate();
+
+  const [error, setError] = useState(null);
+  const handleLogin = async formData => {
+    try {
+      await dispatch(loginUser(formData));
+
+      history.push('/calc');
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+ */
   return (
     <div className={css.intake}>
+      {/*  {error && <p>Error: {error}</p>} */}
       <Box
+        /* onSubmit={handleLogin} */
         sx={{
           height: '80vh',
           display: 'flex',
@@ -107,6 +126,7 @@ export const Login = () => {
           }}
         >
           <Button
+            type="submit"
             sx={{
               boxShadow: '0 4px 10px 0 rgba(252, 132, 45, 0.5)',
               background: ' #fc842d',
@@ -120,8 +140,6 @@ export const Login = () => {
                 backgroundColor: '#fc842d',
               },
             }}
-            component={Link}
-            to="/calc"
           >
             <Typography
               sx={{
@@ -151,8 +169,6 @@ export const Login = () => {
                 backgroundColor: '#fc842d',
               },
             }}
-            component={Link}
-            to="/calc"
           >
             <Typography
               sx={{
@@ -164,6 +180,8 @@ export const Login = () => {
                 textAlign: 'center',
                 color: '#fff',
               }}
+              component={Link}
+              to="/register"
             >
               Register
             </Typography>

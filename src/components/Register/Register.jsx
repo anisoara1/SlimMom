@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import css from '../IntakeCalc/IntakeCalc.module.css';
+import { useDispatch } from 'react-redux';
 import { Box, FormControl, Typography, TextField, Button } from '@mui/material';
+import { registerUser } from '../../redux/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
 export const Register = () => {
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      await dispatch(registerUser(formData));
+      setFormData({ name: '', email: '', password: '' });
+      navigate('/calc');
+      navigate(`/calc?name=${formData.name}`);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <div className={css.intake}>
+      {error && <p>Error: {error}</p>}
       <Box
         sx={{
           height: '80vh',
@@ -27,25 +55,27 @@ export const Register = () => {
         >
           Register
         </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '40px',
-            paddingLeft: '20px',
-          }}
-        >
+        <form onSubmit={handleSubmit}>
           <FormControl
             sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '40px',
+              paddingLeft: '20px',
               '@media screen and (max-width: 450px)': {
                 maxWidth: '300px',
               },
             }}
           >
             <TextField
+              onChange={handleChange}
+              required
+              id="name"
+              name="name"
+              value={formData.name}
               variant="standard"
               placeholder="Name *"
-              autoComplete="off"
+              autoComplete="name"
               sx={{
                 fontFamily: 'Verdana, sans-serif',
                 fontWeight: '700',
@@ -62,21 +92,17 @@ export const Register = () => {
                   borderBottomColor: '#FC842D',
                 },
               }}
-              name="name"
-              disableunderline="true"
             />
-          </FormControl>
-          <FormControl
-            sx={{
-              '@media screen and (max-width: 450px)': {
-                maxWidth: '300px',
-              },
-            }}
-          >
             <TextField
+              onChange={handleChange}
+              required
+              id="email"
+              name="email"
+              value={formData.email}
               variant="standard"
               placeholder="Email *"
-              autoComplete="off"
+              type="email"
+              autoComplete="email"
               sx={{
                 fontFamily: 'Verdana, sans-serif',
                 fontWeight: '700',
@@ -93,27 +119,23 @@ export const Register = () => {
                   borderBottomColor: '#FC842D',
                 },
               }}
-              name="height"
-              disableunderline="true"
             />
-          </FormControl>
-          <FormControl
-            sx={{
-              '@media screen and (max-width: 450px)': {
-                maxWidth: '300px',
-              },
-            }}
-          >
             <TextField
+              onChange={handleChange}
+              required
+              id="password"
+              name="password"
+              value={formData.password}
               variant="standard"
               placeholder="Password *"
-              autoComplete="off"
+              type="password"
+              autoComplete="current-password"
               sx={{
                 fontFamily: 'Verdana, sans-serif',
                 fontWeight: '700',
                 fontSize: '14px',
                 letterSpacing: '0.04em',
-                color: '#9B9FAA',
+                color: '#9b9faa',
                 '& .MuiInput-underline:before': {
                   borderBottomColor: '#9B9FAA',
                 },
@@ -124,82 +146,79 @@ export const Register = () => {
                   borderBottomColor: '#FC842D',
                 },
               }}
-              name="age"
-              disableunderline="true"
             />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '40px',
+                paddingLeft: '20px',
+              }}
+            >
+              <Button
+                type="submit"
+                style={{
+                  boxShadow: '0 4px 10px 0 rgba(252, 132, 45, 0.5)',
+                  background: ' #fc842d',
+                  borderRadius: '30px',
+                  width: '181px',
+                  height: '43px',
+                  '&:hover': {
+                    backgroundColor: '#fc842d',
+                  },
+                  '&:active': {
+                    backgroundColor: '#fc842d',
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    textTransform: 'none',
+                    fontFamily: 'Verdana, sans-serif',
+                    fontWeight: ' 700',
+                    fontSize: '14px',
+                    letterSpacing: '0.04em',
+                    textAlign: 'center',
+                    color: '#fff',
+                  }}
+                >
+                  Register
+                </Typography>
+              </Button>
+              <Button
+                sx={{
+                  boxShadow: '0 4px 10px 0 rgba(252, 132, 45, 0.5)',
+                  background: ' #fc842d',
+                  borderRadius: '30px',
+                  width: '181px',
+                  height: '43px',
+                  '&:hover': {
+                    backgroundColor: '#fc842d',
+                  },
+                  '&:active': {
+                    backgroundColor: '#fc842d',
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    textTransform: 'none',
+                    fontFamily: 'Verdana, sans-serif',
+                    fontWeight: ' 700',
+                    fontSize: '14px',
+                    letterSpacing: '0.04em',
+                    textAlign: 'center',
+                    color: '#fff',
+                  }}
+                  component={Link}
+                  to="/login"
+                >
+                  Log in
+                </Typography>
+              </Button>
+            </Box>
           </FormControl>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '40px',
-            paddingLeft: '20px',
-          }}
-        >
-          <Button
-            sx={{
-              boxShadow: '0 4px 10px 0 rgba(252, 132, 45, 0.5)',
-              background: ' #fc842d',
-              borderRadius: '30px',
-              width: '181px',
-              height: '43px',
-              '&:hover': {
-                backgroundColor: '#fc842d',
-              },
-              '&:active': {
-                backgroundColor: '#fc842d',
-              },
-            }}
-            component={Link}
-            to="/calc"
-          >
-            <Typography
-              sx={{
-                textTransform: 'none',
-                fontFamily: 'Verdana, sans-serif',
-                fontWeight: ' 700',
-                fontSize: '14px',
-                letterSpacing: '0.04em',
-                textAlign: 'center',
-                color: '#fff',
-              }}
-            >
-              Register
-            </Typography>
-          </Button>
-          <Button
-            sx={{
-              boxShadow: '0 4px 10px 0 rgba(252, 132, 45, 0.5)',
-              background: ' #fc842d',
-              borderRadius: '30px',
-              width: '181px',
-              height: '43px',
-              '&:hover': {
-                backgroundColor: '#fc842d',
-              },
-              '&:active': {
-                backgroundColor: '#fc842d',
-              },
-            }}
-            component={Link}
-            to="/calc"
-          >
-            <Typography
-              sx={{
-                textTransform: 'none',
-                fontFamily: 'Verdana, sans-serif',
-                fontWeight: ' 700',
-                fontSize: '14px',
-                letterSpacing: '0.04em',
-                textAlign: 'center',
-                color: '#fff',
-              }}
-            >
-              Log in
-            </Typography>
-          </Button>
-        </Box>
+        </form>
       </Box>
     </div>
   );
