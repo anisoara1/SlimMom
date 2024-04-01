@@ -1,0 +1,11 @@
+.calculator {
+  height: 100%;
+  width: 80vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  background: url('../../images/calculatorBg.png') right/ cover no-repeat,
+    url('../../images/calcBlur.png') right / cover no-repeat;
+  background-size: 100%;
+}

@@ -1,0 +1,23 @@
+.mediaBtn {
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+.diary {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 600px;
+}
