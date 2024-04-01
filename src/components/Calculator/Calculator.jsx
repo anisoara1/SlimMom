@@ -2,21 +2,21 @@ import React from 'react';
 import css from '../Calculator/Calculator.module.css';
 import { Typography, Box, MenuList, Button } from '@mui/material';
 import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+/* import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'; */
 /* import { logoutUser } from '../../redux/auth/authSlice'; */
 
 export const Calculator = () => {
-  const dispatch = useDispatch();
+  /* const dispatch = useDispatch();
   const history = useNavigate();
   const authState = useSelector(state => state.auth);
   const handleLogout = () => {
     console.log('Logout button clicked');
     console.log('State before logout:', authState);
-    dispatch(/* logoutUser() */);
+    dispatch(logoutUser() );
     history('/SlimMom');
   };
-
+ */
   return (
     <div className={css.calculator}>
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -39,7 +39,7 @@ export const Calculator = () => {
             color: '#9b9faa',
           }}
         />
-        <Button onClick={handleLogout}>
+        <Button /* onClick={handleLogout} */>
           <Typography
             sx={{
               fontFamily: 'Verdana, sans-serif',
