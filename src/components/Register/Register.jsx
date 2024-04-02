@@ -26,7 +26,6 @@ export const Register = () => {
       await dispatch(getCurrentUser());
       setFormData({ name: '', email: '', password: '' });
       navigate('/calc');
-      navigate(`/calc?name=${formData.name}`);
     } catch (error) {
       setError(error.message);
     }

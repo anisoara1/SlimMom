@@ -2,57 +2,104 @@ import React from 'react';
 import css from '../Calculator/Calculator.module.css';
 import { Typography, Box, MenuList, Button } from '@mui/material';
 import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded';
- import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
- import { logoutUser } from '../../redux/auth/authSlice'; 
+import { logoutUser } from '../../redux/auth/authSlice';
 
 export const Calculator = () => {
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const history = useNavigate();
   const authState = useSelector(state => state.auth);
+  console.log('UserState:', authState);
+
   const handleLogout = () => {
     console.log('Logout button clicked');
     console.log('State before logout:', authState);
-    dispatch(logoutUser() );
+    dispatch(logoutUser());
     history('/SlimMom');
   };
- 
+
   return (
     <div className={css.calculator}>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <Typography
-          sx={{
-            fontFamily: 'Verdana, sans-serif',
-            fontWeight: '700',
-            fontize: '14px',
-            lineHeight: '1.4',
-            textAlign: 'right',
-            color: '#212121',
-          }}
-        >
-          {}
-        </Typography>
-        <HorizontalRuleRoundedIcon
-          sx={{
-            fontSize: 'larger',
-            transform: 'rotate(90deg)',
-            color: '#9b9faa',
-          }}
-        />
-        <Button  onClick={handleLogout} >
+      <MenuList
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '20px',
+        }}
+      >
+        <li>
+          <Box
+            sx={{
+              borderRadius: '50%',
+              padding: '5px',
+              overflow: 'hidden',
+              display: 'flex',
+              justifyContent: 'center',
+              backgroundColor: '#9BB537',
+            }}
+          >
+            <Box
+              sx={{
+                borderRadius: '50%',
+                padding: '3px',
+                overflow: 'hidden',
+                display: 'flex',
+                justifyContent: 'center',
+                backgroundColor: '#FC842D',
+              }}
+            >
+              <img
+                src={authState.user.data.avatarUrl}
+                alt="Avatar"
+                width={40}
+                style={{ borderRadius: '50%' }}
+              />
+            </Box>
+          </Box>
+        </li>
+        <li>
           <Typography
             sx={{
+              padding: 0,
               fontFamily: 'Verdana, sans-serif',
               fontWeight: '700',
               fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#9b9faa',
+              lineHeight: '1.4',
+              textAlign: 'right',
+              color: '#212121',
             }}
           >
-            Exit
+            {authState.user.data.name}
           </Typography>
-        </Button>
-      </Box>
+        </li>
+        <li>
+          <HorizontalRuleRoundedIcon
+            sx={{
+              fontSize: 'larger',
+              transform: 'rotate(90deg)',
+              color: '#9b9faa',
+            }}
+          />
+        </li>
+        <li>
+          <Button onClick={handleLogout}>
+            <Typography
+              sx={{
+                padding: 0,
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '700',
+                fontSize: '14px',
+                letterSpacing: '0.04em',
+                color: '#9b9faa',
+              }}
+            >
+              Exit
+            </Typography>
+          </Button>
+        </li>
+      </MenuList>
       <Box>
         <Typography
           sx={{
