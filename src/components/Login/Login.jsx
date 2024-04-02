@@ -1,13 +1,13 @@
-import React/* , { useState }  */from 'react';
+import React , { useState }  from 'react';
 import css from '../IntakeCalc/IntakeCalc.module.css';
-/* import { useDispatch } from 'react-redux'; */
+ import { useDispatch } from 'react-redux'; 
 import { Box, FormControl, Typography, TextField, Button } from '@mui/material';
-/* import { loginUser } from '../../redux/auth/authSlice';
-import { useNavigate } from 'react-router-dom'; */
+ import { loginUser , getCurrentUser} from '../../redux/auth/authSlice';
+import { useNavigate } from 'react-router-dom'; 
 import { Link } from 'react-router-dom';
 
 export const Login = () => {
-/*   const dispatch = useDispatch();
+   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,33 +22,31 @@ export const Login = () => {
     }
   };
 
-  const handleSubmit = async event => {
-    event.preventDefault();
+const handleSubmit = async event => {
+  event.preventDefault();
 
-    setError(null);
+  setError(null);
 
-    try {
-      const loginData = await dispatch(loginUser({ email, password }));
-      if (loginData.payload && loginData.payload.token) {
-        const { name, token } = loginData.payload;
+  try {
+    const loginData = await dispatch(loginUser({ email, password }));
+    await dispatch(getCurrentUser()); // Get current user details including name
+    const { token } = loginData.payload;
 
-        localStorage.setItem('token', token);
+    localStorage.setItem('token', token);
 
-        navigate('/calc', { state: { name, token } });
-      } else {
-        setError('Token not found in response data');
-      }
-    } catch (err) {
-      console.error('Login Error:', err);
-      setError(
-        err.response?.data?.message || 'Login failed. Please try again.'
-      );
-    }
-  };
- */
+    // Redirect to '/calc' and pass the token as a state
+    navigate('/calc', { state: { token } });
+  } catch (err) {
+    console.error('Login Error:', err);
+    setError(
+      err.response?.data?.message || 'Login failed. Please try again.'
+    );
+  }
+};
+ 
   return (
     <div className={css.intake}>
-    {/*   {error && <p>Error: {error}</p>} */}
+    {error && <p>Error: {error}</p>} 
       <Box
         sx={{
           height: '80vh',
@@ -70,7 +68,7 @@ export const Login = () => {
         >
           Register
         </Typography>
-       <form /*onSubmit={handleSubmit}*/> 
+       <form onSubmit={handleSubmit}> 
           <FormControl
             sx={{
               display: 'flex',
@@ -83,11 +81,11 @@ export const Login = () => {
             }}
           >
             <TextField
-             /*  onChange={handleChange} */
+               onChange={handleChange} 
               required
               id="email"
               name="email"
-             /*  value={email} */
+               value={email} 
               variant="standard"
               placeholder="Email *"
               type="email"
@@ -110,11 +108,11 @@ export const Login = () => {
               }}
             />
             <TextField
-              /* onChange={handleChange} */
+               onChange={handleChange} 
               required
               id="password"
               name="password"
-             /*  value={password} */
+               value={password} 
               variant="standard"
               placeholder="Password *"
               type="password"
@@ -207,7 +205,7 @@ export const Login = () => {
               </Button>
             </Box>
           </FormControl>
-          {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
+          {error && <p style={{ color: 'red' }}>{error}</p>} 
         </form>
       </Box>
     </div>

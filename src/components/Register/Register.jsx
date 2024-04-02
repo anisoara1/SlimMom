@@ -1,12 +1,12 @@
-import React/* , { useState } */ from 'react';
+import React , { useState }  from 'react';
 import css from '../IntakeCalc/IntakeCalc.module.css';
-/* import { useDispatch } from 'react-redux'; */
+ import { useDispatch } from 'react-redux'; 
 import { Box, FormControl, Typography, TextField, Button } from '@mui/material';
-/* import { registerUser, getCurrentUser } from '../../redux/auth/authSlice';
-import { useNavigate } from 'react-router-dom'; */
+ import { registerUser, getCurrentUser } from '../../redux/auth/authSlice';
+import { useNavigate } from 'react-router-dom'; 
 import { Link } from 'react-router-dom';
 export const Register = () => {
- /*  const dispatch = useDispatch();
+   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,11 +30,11 @@ export const Register = () => {
     } catch (error) {
       setError(error.message);
     }
-  }; */
+  }; 
 
   return (
     <div className={css.intake}>
-  {/*     {error && <p>Error: {error}</p>} */}
+     {error && <p>Error: {error}</p>} 
       <Box
         sx={{
           height: '80vh',
@@ -56,7 +56,7 @@ export const Register = () => {
         >
           Register
         </Typography>
-       <form /* onSubmit={handleSubmit} */> 
+       <form  onSubmit={handleSubmit} > 
           <FormControl
             sx={{
               display: 'flex',
@@ -69,11 +69,11 @@ export const Register = () => {
             }}
           >
             <TextField
-            /*   onChange={handleChange} */
+               onChange={handleChange} 
               required
               id="name"
               name="name"
-              /* value={formData.name} */
+               value={formData.name} 
               variant="standard"
               placeholder="Name *"
               autoComplete="name"
@@ -95,11 +95,11 @@ export const Register = () => {
               }}
             />
             <TextField
-            /*   onChange={handleChange} */
+               onChange={handleChange} 
               required
               id="email"
               name="email"
-             /*  value={formData.email} */
+               value={formData.email} 
               variant="standard"
               placeholder="Email *"
               type="email"
@@ -122,11 +122,11 @@ export const Register = () => {
               }}
             />
             <TextField
-             /*  onChange={handleChange} */
+               onChange={handleChange} 
               required
               id="password"
               name="password"
-          /*     value={formData.password} */
+               value={formData.password} 
               variant="standard"
               placeholder="Password *"
               type="password"
