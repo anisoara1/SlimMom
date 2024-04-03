@@ -11,7 +11,6 @@ export const Calculator = () => {
   const history = useNavigate();
   const authState = useSelector(state => state.auth);
   console.log('UserState:', authState);
-
   const handleLogout = () => {
     console.log('Logout button clicked');
     console.log('State before logout:', authState);
@@ -33,7 +32,7 @@ export const Calculator = () => {
           <Box
             sx={{
               borderRadius: '50%',
-              padding: '5px',
+              padding: '2px',
               overflow: 'hidden',
               display: 'flex',
               justifyContent: 'center',

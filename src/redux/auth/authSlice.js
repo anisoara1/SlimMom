@@ -46,20 +46,19 @@ export const logoutUser = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log('logoutUser action is dispatched');
     try {
-
       const logoutUserAsync = createAsyncThunk(
-  'auth/logoutUserAsync',
-  async (_, thunkAPI) => {
-    try {
-      localStorage.removeItem('token');
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
+        'auth/logoutUserAsync',
+        async (_, thunkAPI) => {
+          try {
+            localStorage.removeItem('token');
+          } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+          }
+        }
+      );
       await thunkAPI.dispatch(logoutUserAsync());
-    const state = thunkAPI.getState();
-    console.log('Current state:', state);
+      const state = thunkAPI.getState();
+      console.log('Current state:', state);
       console.log('Current user state:', state.auth.user.data);
       const token = state.auth.user.data.token;
       console.log('logout token:', token);
@@ -80,26 +79,24 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-
-
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async ({email,password, thunkAPI}, { rejectWithValue }) => {
+  async ({ email, password, thunkAPI }, { rejectWithValue }) => {
     try {
       const response = await axios.post('/users/login', { email, password });
-      console.log(response)
+      console.log(response);
       console.log('Response login data:', response.data);
       setAuthHeader(response.data.token);
-     
+
       console.log('login token:', response.data.data.token);
-      const  token  = response.data.data.token;
+      const token = response.data.data.token;
 
       console.log('Token:', token);
 
       localStorage.setItem('token', token);
       console.log('Token stored in localStorage:', token);
       return response.data;
-   } catch (error) {
+    } catch (error) {
       clearAuthHeader();
 
       if (error.response) {
@@ -135,9 +132,12 @@ export const getCurrentUser = createAsyncThunk(
       const response = await axios.get('/users/current', config);
       console.log('getCurrent data:', response);
 
-      const token = response.config.headers.Authorization.replace('Bearer ', '');
+      const token = response.config.headers.Authorization.replace(
+        'Bearer ',
+        ''
+      );
       console.log('getCurrent token after:', token);
-      
+
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -147,7 +147,42 @@ export const getCurrentUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  'user/updateUserById',
+  async ({ _id, userData }, thunkAPI) => {
+    try {
+      console.log(userData);
+      const tokenWithBearer = thunkAPI.getState().auth.user?.data?.token;
+      console.log('Token:', tokenWithBearer);
 
+      if (!tokenWithBearer) {
+        throw new Error('Token not found');
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${tokenWithBearer}`,
+        },
+      };
+
+      const response = await axios.patch(`/users/infouser/`, userData, config);
+      setAuthHeader(response.user.token);
+
+      console.log('update token:', response.data.data.token);
+      const token = response.data.user.token;
+
+      console.log('upadate Token:', token);
+
+      localStorage.setItem('token', token);
+      console.log('Token stored in localStorage:', token);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data || 'Failed to update user'
+      );
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -162,53 +197,50 @@ const authSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(registerUser.pending, state => {
-       console.log(
+        console.log(
           'State before registerUser.pending:',
           JSON.stringify(state)
-        ); 
+        );
         state.loading = true;
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-         console.log(
+        console.log(
           'State before registerUser.fulfilled:',
           JSON.stringify(state)
-        ); 
+        );
         state.loading = false;
         state.user = action.payload;
         state.error = null;
         state.isLoggedIn = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
-         console.log(
+        console.log(
           'State before registerUser.rejected:',
           JSON.stringify(state)
         );
         state.loading = false;
         state.error = action.error.message;
       })
-            .addCase(loginUser.pending, state => {
+      .addCase(loginUser.pending, state => {
         console.log('State before loginUser.pending:', JSON.stringify(state));
-         state.loading = true;
+        state.loading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-         console.log(
-          'State before loginUser.fulfilled:',
-          JSON.stringify(state)
-        ); 
+        console.log('State before loginUser.fulfilled:', JSON.stringify(state));
         state.loading = false;
         state.user = action.payload;
         state.error = null;
         state.isLoggedIn = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log('State before loginUser.rejected:', JSON.stringify(state)); 
-            state.loading = false;
+        console.log('State before loginUser.rejected:', JSON.stringify(state));
+        state.loading = false;
         state.error = action.error.message;
       })
       .addCase(getCurrentUser.pending, state => {
-            console.log(
+        console.log(
           'State before getCurrentUser.pending:',
           JSON.stringify(state)
         );
@@ -216,42 +248,61 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
-         console.log(
+        console.log(
           'State before getCurrentUser.fulfilled:',
           JSON.stringify(state)
-        ); 
+        );
         state.loading = false;
         state.user = action.payload;
         state.error = null;
         state.isLoggedIn = true;
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
-          console.log(
+        console.log(
           'State before getCurrentUser.rejected:',
           JSON.stringify(state)
-        ); 
+        );
         state.loading = false;
         state.error = action.payload;
       })
       .addCase(logoutUser.pending, state => {
-   console.log('State before logoutUser.pending:', JSON.stringify(state)); 
+        console.log('State before logoutUser.pending:', JSON.stringify(state));
         state.error = null;
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
-   console.log(
+        console.log(
           'State before logoutUser.fulfilled:',
           JSON.stringify(state)
-        ); 
+        );
         state.loading = false;
         state.user = null;
         state.error = null;
         state.isLoggedIn = false;
       })
       .addCase(logoutUser.rejected, (state, action) => {
-       console.log('State before logoutUser.rejected:', JSON.stringify(state)); 
+        console.log('State before logoutUser.rejected:', JSON.stringify(state));
         state.loading = false;
         state.error = action.error.message;
-      }); 
+      })
+      .addCase(updateUser.pending, state => {
+        console.log('State before updateUser.pending:', JSON.stringify(state));
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        console.log(
+          'State before updateUser.fulfilled:',
+          JSON.stringify(state)
+        );
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        console.log('State before updateUser.rejected:', JSON.stringify(state));
+        state.loading = false;
+        state.error = action.error.message;
+      });
   },
 });
 

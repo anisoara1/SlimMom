@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import css from '../IntakeCalc/IntakeCalc.module.css';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   FormControl,
@@ -11,15 +12,50 @@ import {
   Button,
 } from '@mui/material';
 import { IntakeModal } from 'components/Modal/Modal';
+import { updateUser, getCurrentUser } from '../../redux/auth/authSlice';
+import { fetchNotAllowedProducts } from '../../redux/products/productsSlice';
 
 export const IntakeCalc = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    height: '',
+    age: '',
+    currentWeight: '',
+    desiredWeight: '',
+    bloodType: '',
+  });
+
+  const dispatch = useDispatch();
 
   const handleOpen = () => {
     setOpen(true);
   };
+
+  const handleChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleChangeRadio = event => {
+    setFormData({ ...formData, bloodType: event.target.value });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    await dispatch(updateUser(formData));
+    await dispatch(fetchNotAllowedProducts(formData));
+    await dispatch(getCurrentUser());
+    setOpen(false);
+    setFormData({
+      height: '',
+      age: '',
+      currentWeight: '',
+      desiredWeight: '',
+      bloodType: '',
+    });
+  };
+
   return (
-    <div className={css.intake}>
+    <form className={css.intake} onSubmit={handleSubmit}>
       <Box
         sx={{
           height: '80vh',
@@ -65,6 +101,7 @@ export const IntakeCalc = () => {
               }}
             >
               <TextField
+                onChange={handleChange}
                 variant="standard"
                 placeholder="Height *"
                 autoComplete="off"
@@ -84,8 +121,9 @@ export const IntakeCalc = () => {
                     borderBottomColor: '#FC842D',
                   },
                 }}
-                name="name"
+                name="height"
                 disableunderline="true"
+                value={formData.height}
               />
             </FormControl>
             <FormControl
@@ -96,6 +134,7 @@ export const IntakeCalc = () => {
               }}
             >
               <TextField
+                onChange={handleChange}
                 variant="standard"
                 placeholder="Age *"
                 autoComplete="off"
@@ -115,8 +154,9 @@ export const IntakeCalc = () => {
                     borderBottomColor: '#FC842D',
                   },
                 }}
-                name="telephone"
+                name="age"
                 disableunderline="true"
+                value={formData.age}
               />
             </FormControl>
             <FormControl
@@ -127,6 +167,7 @@ export const IntakeCalc = () => {
               }}
             >
               <TextField
+                onChange={handleChange}
                 variant="standard"
                 placeholder="Current weight *"
                 autoComplete="off"
@@ -146,8 +187,9 @@ export const IntakeCalc = () => {
                     borderBottomColor: '#FC842D',
                   },
                 }}
-                name="email"
+                name="currentWeight"
                 disableunderline="true"
+                value={formData.currentWeight}
               />
             </FormControl>
           </Box>
@@ -167,6 +209,7 @@ export const IntakeCalc = () => {
               }}
             >
               <TextField
+                onChange={handleChange}
                 variant="standard"
                 placeholder="Desired weight *"
                 autoComplete="off"
@@ -186,8 +229,9 @@ export const IntakeCalc = () => {
                     borderBottomColor: '#FC842D',
                   },
                 }}
-                name="name"
+                name="desiredWeight"
                 disableunderline="true"
+                value={formData.desiredWeight}
               />
             </FormControl>
             <FormControl
@@ -198,6 +242,7 @@ export const IntakeCalc = () => {
               }}
             >
               <TextField
+                onChange={handleChangeRadio}
                 variant="standard"
                 placeholder="Blood type *"
                 autoComplete="off"
@@ -217,9 +262,11 @@ export const IntakeCalc = () => {
                     borderBottomColor: '#FC842D',
                   },
                 }}
-                name="email"
-                disableunderline="true"
+                aria-labelledby="demo-radio-buttons-group-label"
+                name="bloodType"
+                value={formData.bloodType} // Set the value prop to control the selected value
               />
+
               <RadioGroup
                 sx={{
                   display: 'flex',
@@ -228,9 +275,9 @@ export const IntakeCalc = () => {
                   justifyItems: 'flex-start',
                   gap: '10px',
                 }}
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
+                name="bloodType"
+                value={formData.bloodType} // Set the value of the radio group to the selected value
+                onChange={handleChangeRadio}
               >
                 <FormControlLabel
                   value="1"
@@ -301,6 +348,7 @@ export const IntakeCalc = () => {
           </Box>
         </Box>
         <Button
+          type="submit"
           onClick={handleOpen}
           sx={{
             boxShadow: '0 4px 10px 0 rgba(252, 132, 45, 0.5)',
@@ -332,6 +380,6 @@ export const IntakeCalc = () => {
         </Button>
         <IntakeModal open={open} handleClose={() => setOpen(false)} />
       </Box>
-    </div>
+    </form>
   );
 };
