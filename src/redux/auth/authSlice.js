@@ -148,33 +148,37 @@ export const getCurrentUser = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk(
-  'user/updateUserById',
-  async ({ _id, userData }, thunkAPI) => {
+  'auth/updateUser',
+  async (
+    { currentWeight, height, age, desiredWeight, bloodType },
+    thunkAPI
+  ) => {
     try {
-      console.log(userData);
-      const tokenWithBearer = thunkAPI.getState().auth.user?.data?.token;
-      console.log('Token:', tokenWithBearer);
+      const userId = thunkAPI.getState().auth.user.data._id;
+      const userData = {
+        _id: userId,
+        currentWeight: currentWeight,
+        age: age,
+        height: height,
+        desiredWeight: desiredWeight,
+        bloodType: bloodType,
+      };
+      console.log(userId);
+      console.log('updateUser userData:', userData);
+      const tokenWithBearer = thunkAPI.getState().auth.user.data.token;
 
+      console.log('updateUser token before:', tokenWithBearer);
       if (!tokenWithBearer) {
         throw new Error('Token not found');
       }
-
       const config = {
         headers: {
           Authorization: `Bearer ${tokenWithBearer}`,
         },
       };
-
-      const response = await axios.patch(`/users/infouser/`, userData, config);
-      setAuthHeader(response.user.token);
-
-      console.log('update token:', response.data.data.token);
-      const token = response.data.user.token;
-
-      console.log('upadate Token:', token);
-
-      localStorage.setItem('token', token);
-      console.log('Token stored in localStorage:', token);
+      localStorage.setItem('token', tokenWithBearer);
+      const response = await axios.patch('/users/infouser', userData, config);
+      setAuthHeader(response.data.data.user.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -184,6 +188,68 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const fetchGetProducts = createAsyncThunk(
+  'auth/fetchGetProducts',
+  async (_, thunkAPI) => {
+    try {
+      const tokenWithBearer = thunkAPI.getState().auth.user.data.user.token;
+
+      console.log('getCurent token before:', tokenWithBearer);
+      if (!tokenWithBearer) {
+        throw new Error('Token not found');
+      }
+      const config = {
+        headers: {
+          Authorization: `Bearer ${tokenWithBearer}`,
+        },
+      };
+
+      const response = await axios.post('/users/getProducts', config);
+      setAuthHeader(response.data.user.token);
+      localStorage.setItem('token', tokenWithBearer);
+      console.log('getProducts data:', response);
+
+      const token = response.config.headers.Authorization.replace(
+        'Bearer ',
+        ''
+      );
+      console.log('getProducts token after:', token);
+
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Failed to fetch user info'
+      );
+    }
+  }
+);
+
+export const getName = createAsyncThunk('auth/getName', async (_, thunkAPI) => {
+  try {
+    const tokenWithBearer = thunkAPI.getState().auth.user.data.user.token;
+    console.log('getName token before:', tokenWithBearer);
+    if (!tokenWithBearer) {
+      throw new Error('Token not found');
+    }
+    const config = {
+      headers: {
+        Authorization: `Bearer ${tokenWithBearer}`,
+      },
+    };
+
+    const response = await axios.get('/users/current', config);
+    console.log('getName data:', response);
+
+    const token = response.config.headers.Authorization.replace('Bearer ', '');
+    console.log('getName token after:', token);
+
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || 'Failed to fetch user info'
+    );
+  }
+});
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -191,6 +257,7 @@ const authSlice = createSlice({
     isLoggedIn: false,
     loading: false,
     error: null,
+    status: 'idle',
   },
 
   reducers: {},
@@ -288,6 +355,7 @@ const authSlice = createSlice({
         console.log('State before updateUser.pending:', JSON.stringify(state));
         state.loading = true;
         state.error = null;
+        state.status = 'loading';
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         console.log(
@@ -295,13 +363,56 @@ const authSlice = createSlice({
           JSON.stringify(state)
         );
         state.loading = false;
+        state.status = 'succeeded';
         state.user = action.payload;
-        state.error = null;
+        state.error = null; // Set error to null upon successful update
       })
       .addCase(updateUser.rejected, (state, action) => {
         console.log('State before updateUser.rejected:', JSON.stringify(state));
         state.loading = false;
-        state.error = action.error.message;
+        state.status = 'failed';
+        state.error = action.payload ? action.payload : 'Failed to update user';
+      })
+      .addCase(fetchGetProducts.pending, state => {
+        console.log(
+          'State before fetchGetProducts.pending:',
+          JSON.stringify(state)
+        );
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchGetProducts.fulfilled, (state, action) => {
+        console.log(
+          'State before fetchGetProducts.fulfilled:',
+          JSON.stringify(state)
+        );
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchGetProducts.rejected, (state, action) => {
+        console.log(
+          'State before fetchGetProducts.fulfilled:',
+          JSON.stringify(state)
+        );
+        state.loading = false;
+        state.error = action.payload?.message || 'Failed to fetch products';
+      })
+      .addCase(getName.pending, state => {
+        console.log('State before getName.pending:', JSON.stringify(state));
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getName.fulfilled, (state, action) => {
+        console.log('State before getName.fulfilled:', JSON.stringify(state));
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(getName.rejected, (state, action) => {
+        console.log('State before getName.fulfilled:', JSON.stringify(state));
+        state.loading = false;
+        state.error = action.payload?.message || 'Failed to fetch products';
       });
   },
 });

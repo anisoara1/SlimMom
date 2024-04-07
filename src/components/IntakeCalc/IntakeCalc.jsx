@@ -12,8 +12,11 @@ import {
   Button,
 } from '@mui/material';
 import { IntakeModal } from 'components/Modal/Modal';
-import { updateUser, getCurrentUser } from '../../redux/auth/authSlice';
-import { fetchNotAllowedProducts } from '../../redux/products/productsSlice';
+import {
+  updateUser,
+  fetchGetProducts,
+  getName,
+} from '../../redux/auth/authSlice';
 
 export const IntakeCalc = () => {
   const [open, setOpen] = useState(false);
@@ -35,15 +38,16 @@ export const IntakeCalc = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleChangeRadio = event => {
-    setFormData({ ...formData, bloodType: event.target.value });
+  const handleChangeRadio = e => {
+    setFormData({ ...formData, bloodType: e.target.value });
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
     await dispatch(updateUser(formData));
-    await dispatch(fetchNotAllowedProducts(formData));
-    await dispatch(getCurrentUser());
+
+    await dispatch(fetchGetProducts());
+    await dispatch(getName());
     setOpen(false);
     setFormData({
       height: '',

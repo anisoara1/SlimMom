@@ -10,7 +10,7 @@ export const Calculator = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const authState = useSelector(state => state.auth);
-  console.log('UserState:', authState);
+
   const handleLogout = () => {
     console.log('Logout button clicked');
     console.log('State before logout:', authState);
