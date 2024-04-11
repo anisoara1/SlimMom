@@ -18,87 +18,102 @@ export const Calculator = () => {
     history('/SlimMom');
   };
 
+  const user = authState.user && authState.user.data;
+  const name = user && user.name;
+  const avatarUrl = user && user.avatarUrl;
+  const notAllowedProducts = user?.infouser?.notAllowedProducts;
+  console.log('NotAllowedProducts:', notAllowedProducts);
+
+  const renderProductList = () => {
+    return notAllowedProducts.map(product => <li key={product}>{product}</li>);
+  };
+
   return (
     <div className={css.calculator}>
-      <MenuList
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '20px',
-        }}
-      >
-        <li>
-          <Box
-            sx={{
-              borderRadius: '50%',
-              padding: '2px',
-              overflow: 'hidden',
-              display: 'flex',
-              justifyContent: 'center',
-              backgroundColor: '#9BB537',
-            }}
-          >
+      <Box>
+        <MenuList
+          sx={{
+            width: '80vh',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginLeft: '20px',
+            gap: '20px',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <li>
             <Box
               sx={{
                 borderRadius: '50%',
-                padding: '3px',
+                padding: '2px',
                 overflow: 'hidden',
                 display: 'flex',
                 justifyContent: 'center',
-                backgroundColor: '#FC842D',
+                backgroundColor: '#9BB537',
               }}
             >
-              <img
-                src={authState.user.data.avatarUrl}
-                alt="Avatar"
-                width={40}
-                style={{ borderRadius: '50%' }}
-              />
+              <Box
+                sx={{
+                  borderRadius: '50%',
+                  padding: '3px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  backgroundColor: '#FC842D',
+                }}
+              >
+                <img
+                  src={avatarUrl}
+                  alt="Avatar"
+                  width={40}
+                  style={{ borderRadius: '50%' }}
+                />
+              </Box>
             </Box>
-          </Box>
-        </li>
-        <li>
-          <Typography
-            sx={{
-              padding: 0,
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '700',
-              fontSize: '14px',
-              lineHeight: '1.4',
-              textAlign: 'right',
-              color: '#212121',
-            }}
-          >
-            {authState.user.data.name}
-          </Typography>
-        </li>
-        <li>
-          <HorizontalRuleRoundedIcon
-            sx={{
-              fontSize: 'larger',
-              transform: 'rotate(90deg)',
-              color: '#9b9faa',
-            }}
-          />
-        </li>
-        <li>
-          <Button onClick={handleLogout}>
+          </li>
+          <li>
             <Typography
               sx={{
                 padding: 0,
                 fontFamily: 'Verdana, sans-serif',
                 fontWeight: '700',
                 fontSize: '14px',
-                letterSpacing: '0.04em',
-                color: '#9b9faa',
+                lineHeight: '1.4',
+                textAlign: 'right',
+                color: '#212121',
               }}
             >
-              Exit
+              {name}
             </Typography>
-          </Button>
-        </li>
-      </MenuList>
+          </li>
+          <li>
+            <HorizontalRuleRoundedIcon
+              sx={{
+                fontSize: 'larger',
+                transform: 'rotate(90deg)',
+                color: '#9b9faa',
+              }}
+            />
+          </li>
+          <li>
+            <Button onClick={handleLogout}>
+              <Typography
+                sx={{
+                  padding: 0,
+                  fontFamily: 'Verdana, sans-serif',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  letterSpacing: '0.04em',
+                  color: '#9b9faa',
+                }}
+              >
+                Exit
+              </Typography>
+            </Button>
+          </li>
+        </MenuList>
+      </Box>
       <Box>
         <Typography
           sx={{
@@ -106,7 +121,6 @@ export const Calculator = () => {
             fontWeight: '700',
             fontize: '26px',
             lineHeight: '1.4',
-            textAlign: 'center',
             color: '#212121',
           }}
         >
@@ -120,7 +134,7 @@ export const Calculator = () => {
             gap: '10px',
           }}
         >
-          <li>
+          <li className={css.list}>
             <Typography
               sx={{
                 fontFamily: 'Verdana, sans-serif',
@@ -130,42 +144,52 @@ export const Calculator = () => {
                 color: '#9b9faa',
               }}
             >
-              1. Foods you should not eat<span> kcal</span>
+              Left
             </Typography>
+            <span className={css.span}> kcal</span>
           </li>
-          <Typography
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '400',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#9b9faa',
-            }}
-          >
-            2. Consumed<span> kcal</span>
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '400',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#9b9faa',
-            }}
-          >
-            3. Daily rate<span> kcal</span>
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: 'Verdana, sans-serif',
-              fontWeight: '400',
-              fontSize: '14px',
-              letterSpacing: '0.04em',
-              color: '#9b9faa',
-            }}
-          >
-            4. n% of normal<span> kcal</span>
-          </Typography>
+          <li className={css.list}>
+            <Typography
+              sx={{
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '400',
+                fontSize: '14px',
+                letterSpacing: '0.04em',
+                color: '#9b9faa',
+              }}
+            >
+              Consumed
+            </Typography>
+            <span className={css.span}> kcal</span>
+          </li>
+          <li className={css.list}>
+            <Typography
+              sx={{
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '400',
+                fontSize: '14px',
+                letterSpacing: '0.04em',
+                color: '#9b9faa',
+              }}
+            >
+              Daily rate
+            </Typography>
+            <span className={css.span}> {user?.infouser?.dailyRate} kcal</span>
+          </li>
+          <li className={css.list}>
+            <Typography
+              sx={{
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '400',
+                fontSize: '14px',
+                letterSpacing: '0.04em',
+                color: '#9b9faa',
+              }}
+            >
+              n% of normal
+            </Typography>
+            <span className={css.span}> kcal</span>
+          </li>
         </MenuList>
       </Box>
       <Box>
@@ -175,23 +199,41 @@ export const Calculator = () => {
             fontWeight: '700',
             fontize: '26px',
             lineHeight: '1.4',
-            textAlign: 'center',
             color: '#212121',
           }}
         >
           Food not recommended
         </Typography>
-        <Typography
-          sx={{
-            fontFamily: 'Verdana, sans-serif',
-            fontWeight: '400',
-            fontSize: '14px',
-            letterSpacing: '0.04em',
-            color: '#9b9faa',
-          }}
-        >
-          Your diet will be displayed here
-        </Typography>
+        {notAllowedProducts ? (
+          <MenuList
+            sx={{
+              width: '330px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+              listStyle: 'none',
+              fontFamily: 'Verdana, sans-serif',
+              fontWeight: '400',
+              fontSize: '14px',
+              letterSpacing: '0.04em',
+              color: '#9b9faa',
+            }}
+          >
+            {renderProductList()}
+          </MenuList>
+        ) : (
+          <Typography
+            sx={{
+              fontFamily: 'Verdana, sans-serif',
+              fontWeight: '400',
+              fontSize: '14px',
+              letterSpacing: '0.04em',
+              color: '#9b9faa',
+            }}
+          >
+            Your diet will be displayed here
+          </Typography>
+        )}
       </Box>
     </div>
   );

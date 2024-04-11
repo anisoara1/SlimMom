@@ -194,7 +194,7 @@ export const fetchGetProducts = createAsyncThunk(
     try {
       const tokenWithBearer = thunkAPI.getState().auth.user.data.user.token;
 
-      console.log('getCurent token before:', tokenWithBearer);
+      console.log('getProducts token before:', tokenWithBearer);
       if (!tokenWithBearer) {
         throw new Error('Token not found');
       }
@@ -250,6 +250,7 @@ export const getName = createAsyncThunk('auth/getName', async (_, thunkAPI) => {
     );
   }
 });
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
