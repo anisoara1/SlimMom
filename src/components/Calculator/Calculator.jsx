@@ -37,6 +37,10 @@ export const Calculator = () => {
   const dailyRate = user?.infouser?.dailyRate;
 
   const renderProductList = () => {
+    if (!notAllowedProducts || notAllowedProducts.length === 0) {
+      return <li>No products found</li>;
+    }
+
     return notAllowedProducts.map((product, index) => (
       <li key={`${product}_${index}`}>{product}</li>
     ));
