@@ -29,8 +29,20 @@ export const Diary = () => {
   const dispatch = useDispatch();
 
   const myProductsState = useSelector(state => state.myproducts);
-  const addProducts = myProductsState.products.products;
+  const addProducts =
+    myProductsState.products && myProductsState.products.products;
   console.log('myProductsState:', myProductsState);
+  const originalDate = myProductsState.products.date;
+  const formattedDate = new Date(originalDate)
+    .toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    })
+    .split('/')
+    .join('.');
+
+  console.log(formattedDate);
 
   const [formData, setFormData] = useState({
     product: '',
@@ -89,7 +101,7 @@ export const Diary = () => {
             color: '#212121',
           }}
         >
-          13.08.2023
+          {formattedDate}
         </Typography>
         <DateRangeIcon sx={{ color: '#9B9FAA', fontSize: 'medium' }} />
       </Box>
@@ -101,6 +113,7 @@ export const Diary = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           marginBottom: '-50px',
+          width: '760px',
         }}
       >
         <li>
@@ -132,7 +145,7 @@ export const Diary = () => {
                 placeholder="Enter product name"
                 autoComplete="off"
                 sx={{
-                  width: '380px',
+                  width: '428px',
                   fontFamily: 'Verdana, sans-serif',
                   fontWeight: '700',
                   fontSize: '14px',
@@ -142,15 +155,15 @@ export const Diary = () => {
 
                   '& .MuiInput-underline:before': {
                     borderBottomColor: '#9B9FAA',
-                    maxWidth: '380px',
+                    maxWidth: '428px',
                   },
                   '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
                     borderBottomColor: '#9B9FAA',
-                    maxWidth: '380px',
+                    maxWidth: '428px',
                   },
                   '& .MuiInput-underline:after': {
                     borderBottomColor: '#FC842D',
-                    maxWidth: '380px',
+                    maxWidth: '428px',
                   },
                 }}
                 disableunderline="true"
@@ -169,7 +182,7 @@ export const Diary = () => {
             )}
           />
         </li>
-        <li className={css.productInfo}>
+        <li className={css.gramsList}>
           <FormControl
             sx={{
               '@media screen and (max-width: 450px)': {
@@ -185,25 +198,28 @@ export const Diary = () => {
               value={formData.quantity}
               onChange={handleChange}
               sx={{
-                maxWidth: '70px',
+                maxWidth: '100px',
                 fontFamily: 'Verdana, sans-serif',
                 fontWeight: '700',
                 fontSize: '14px',
                 lineHeight: '0.4',
-                textAlign: 'end',
                 color: '#9B9FAA',
+                direction: 'rtl', // Add direction: 'rtl' (optional)
+                '&::placeholder': {
+                  textAlign: 'right',
+                },
 
                 '& .MuiInput-underline:before': {
                   borderBottomColor: '#9B9FAA',
-                  maxWidth: '70px',
+                  maxWidth: '100px',
                 },
                 '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
                   borderBottomColor: '#9B9FAA',
-                  maxWidth: '70px',
+                  maxWidth: '100px',
                 },
                 '& .MuiInput-underline:after': {
                   borderBottomColor: '#FC842D',
-                  maxWidth: '70px',
+                  maxWidth: '100px',
                 },
               }}
             />
@@ -243,12 +259,11 @@ export const Diary = () => {
         }}
       >
         <List
-          className={css.box}
           sx={{
             width: '100%',
             bgcolor: 'background.paper',
             overflow: 'auto',
-            maxHeight: 220,
+            height: 220,
             position: 'relative',
             '&::-webkit-scrollbar': {
               width: '7px',
@@ -266,26 +281,33 @@ export const Diary = () => {
             <MenuList
               sx={{
                 marginLeft: '20px',
-                width: '560px',
+                maxWidth: '740px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
                 listStyle: 'none',
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '400',
+                fontSize: '14px',
+                letterSpacing: '0.04em',
+                color: '#212121',
               }}
             >
               {addProducts.map((product, index) => (
                 <li key={`${product._id}-${index}`} className={css.productInfo}>
-                  <p className={css.listStyle}>{product.product}</p>
-                  <p className={css.listStyle}>{product.quantity} g</p>
-                  <p className={css.listStyle}>{product.newCalories} kcal</p>
-                  <CloseRoundedIcon
-                    sx={{
-                      color: '#9B9FAA',
-                      fontSize: 'medium',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => handleRemoveProduct(product._id)}
-                  />
+                  <p className={css.firstListStyle}>{product.product}</p>
+                  <div className={css.list}>
+                    <p className={css.listStyle}>{product.quantity} g</p>
+                    <p className={css.listStyle}>{product.newCalories} kcal</p>
+                    <CloseRoundedIcon
+                      sx={{
+                        color: '#9B9FAA',
+                        fontSize: 'medium',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => handleRemoveProduct(product._id)}
+                    />
+                  </div>
                 </li>
               ))}
             </MenuList>

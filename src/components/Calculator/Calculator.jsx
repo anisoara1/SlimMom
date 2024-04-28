@@ -19,16 +19,43 @@ export const Calculator = () => {
   };
 
   const user = authState.user && authState.user.data;
+  const originalDate = user && user.currentDate;
+  const formattedDate = new Date(originalDate)
+    .toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    })
+    .split('/')
+    .join('.');
+
+  console.log(formattedDate);
   const name = user && user.name;
   const avatarUrl = user && user.avatarUrl;
   const notAllowedProducts = user?.infouser?.notAllowedProducts;
   console.log('NotAllowedProducts:', notAllowedProducts);
+  const dailyRate = user?.infouser?.dailyRate;
 
   const renderProductList = () => {
     return notAllowedProducts.map((product, index) => (
       <li key={`${product}_${index}`}>{product}</li>
     ));
   };
+
+  const myProductsState = useSelector(state => state.myproducts);
+  const products =
+    myProductsState.products && myProductsState.products.products;
+  console.log('myProductsState:', myProductsState);
+  console.log('products:', products);
+  const newCaloriesArray = products.map(product => product.newCalories);
+  console.log('newCaloriesArray:', newCaloriesArray);
+  const allCalories = newCaloriesArray.reduce(
+    (total, allCalories) => total + allCalories,
+    0
+  );
+  const consumed = Math.round(allCalories);
+  const left = dailyRate - consumed;
+  const consumedPercentage = Math.round((consumed * 100) / dailyRate);
 
   return (
     <div className={css.calculator}>
@@ -126,7 +153,7 @@ export const Calculator = () => {
             color: '#212121',
           }}
         >
-          Summary for 13.08.2023
+          Summary for {formattedDate}
         </Typography>
         <MenuList
           sx={{
@@ -148,7 +175,7 @@ export const Calculator = () => {
             >
               Left
             </Typography>
-            <span className={css.span}> kcal</span>
+            <span className={css.span}>{left} kcal</span>
           </li>
           <li className={css.list}>
             <Typography
@@ -162,7 +189,7 @@ export const Calculator = () => {
             >
               Consumed
             </Typography>
-            <span className={css.span}> kcal</span>
+            <span className={css.span}>{consumed} kcal</span>
           </li>
           <li className={css.list}>
             <Typography
@@ -176,7 +203,7 @@ export const Calculator = () => {
             >
               Daily rate
             </Typography>
-            <span className={css.span}> {user?.infouser?.dailyRate} kcal</span>
+            <span className={css.span}> {dailyRate} kcal</span>
           </li>
           <li className={css.list}>
             <Typography
@@ -190,7 +217,7 @@ export const Calculator = () => {
             >
               n% of normal
             </Typography>
-            <span className={css.span}> kcal</span>
+            <span className={css.span}>{consumedPercentage}% kcal</span>
           </li>
         </MenuList>
       </Box>
