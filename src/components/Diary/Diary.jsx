@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import css from '../Diary/Diary.module.css';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   Typography,
   Box,
@@ -204,11 +205,7 @@ export const Diary = () => {
                 fontSize: '14px',
                 lineHeight: '0.4',
                 color: '#9B9FAA',
-                direction: 'rtl', // Add direction: 'rtl' (optional)
-                '&::placeholder': {
-                  textAlign: 'right',
-                },
-
+                direction: 'rtl',
                 '& .MuiInput-underline:before': {
                   borderBottomColor: '#9B9FAA',
                   maxWidth: '100px',
@@ -277,6 +274,9 @@ export const Diary = () => {
           }}
           subheader={<li />}
         >
+          {myProductsState.loading && (
+            <CircularProgress sx={{ color: '#FC842D' }} />
+          )}
           {addProducts && addProducts.length > 0 && (
             <MenuList
               sx={{
