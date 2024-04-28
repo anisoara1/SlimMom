@@ -1,60 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
 import css from '../Diary/Diary.module.css';
 import {
   Typography,
   Box,
-  /* Button, */ List,
+  List,
   Fab,
   FormControl,
   TextField,
   MenuList,
   Autocomplete,
+  /* Button, */
 } from '@mui/material';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import {
+  saveProductData,
+  /*  clearMyProducts, */
+  removeProduct,
+} from '../../redux/myProducts/myProductsSlice';
 
 export const Diary = () => {
   const authState = useSelector(state => state.auth);
   const user = authState.user && authState.user.data;
   const allowedProductsAll = user?.infouser?.allowedProductsAll;
-  console.log('allowedProductsAll:', allowedProductsAll);
+  const dispatch = useDispatch();
 
-  const renderProductList = () => {
-    return allowedProductsAll.map((product, index) => (
-      <MenuList
-        key={`${product._id}-${index}`}
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '20px',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: '400',
-          fontSize: '14px',
-          letterSpacing: '0.04em',
-          color: '#212121',
-        }}
-      >
-        <li>
-          <p className={css.listStyle}>{product.title}</p>
-        </li>
+  const myProductsState = useSelector(state => state.myproducts);
+  const addProducts = myProductsState.products.products;
+  console.log('myProductsState:', myProductsState);
 
-        <li className={css.productInfo}>
-          <p className={css.listStyle}>{product.weight} g</p>
-          <p className={css.listStyle}> {product.calories} kcal</p>
-          <CloseRoundedIcon
-            sx={{ color: '#9B9FAA', fontSize: 'medium', cursor: 'pointer' }}
-          />
-        </li>
-      </MenuList>
-    ));
+  const [formData, setFormData] = useState({
+    product: '',
+    quantity: '',
+  });
+
+  const handleChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    dispatch(saveProductData(formData));
+    setFormData({ product: '', quantity: '' });
+  };
+
+  /* const handleClearMyProducts = () => {
+    dispatch(clearMyProducts());
+  }; */
+
+  const handleRemoveProduct = productId => {
+    dispatch(removeProduct(productId));
   };
 
   return (
     <div className={css.diary}>
+      {/* <Button
+        sx={{
+          width: '100px',
+          fontSize: 'smaller',
+          textTransform: 'lowercase',
+          borderRadius: ' 50%',
+          border: '1px solid #212121',
+
+          color: '#212121',
+        }}
+        onClick={handleClearMyProducts}
+      >
+        Clear My Products State
+      </Button> */}
       <Box
         sx={{
           padding: '40px 0 0 20px',
@@ -99,6 +114,12 @@ export const Diary = () => {
             getOptionLabel={option =>
               option && option.title ? option.title : ''
             }
+            onChange={(event, newValue) =>
+              setFormData({
+                ...formData,
+                product: newValue ? newValue.title : '',
+              })
+            }
             renderOption={(props, option) => (
               <Box component="li" {...props}>
                 {option.title}
@@ -132,7 +153,6 @@ export const Diary = () => {
                     maxWidth: '380px',
                   },
                 }}
-                name="product"
                 disableunderline="true"
                 inputProps={{
                   style: {
@@ -143,7 +163,7 @@ export const Diary = () => {
                     color: '#212121',
                   },
                   ...params.inputProps,
-                  autoComplete: 'new-password', // disable autocomplete and autofill
+                  autoComplete: 'new-password',
                 }}
               />
             )}
@@ -161,6 +181,9 @@ export const Diary = () => {
               variant="standard"
               placeholder="Grams"
               autoComplete="off"
+              name="quantity"
+              value={formData.quantity}
+              onChange={handleChange}
               sx={{
                 maxWidth: '70px',
                 fontFamily: 'Verdana, sans-serif',
@@ -183,11 +206,11 @@ export const Diary = () => {
                   maxWidth: '70px',
                 },
               }}
-              name="grams"
-              disableunderline="true"
             />
           </FormControl>
           <Fab
+            type="submit"
+            onClick={handleSubmit}
             size="small"
             className={css.mediaBtn}
             sx={{
@@ -239,18 +262,34 @@ export const Diary = () => {
           }}
           subheader={<li />}
         >
-          <MenuList
-            sx={{
-              marginLeft: '20px',
-              width: '560px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              listStyle: 'none',
-            }}
-          >
-            {renderProductList()}
-          </MenuList>
+          {addProducts && addProducts.length > 0 && (
+            <MenuList
+              sx={{
+                marginLeft: '20px',
+                width: '560px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                listStyle: 'none',
+              }}
+            >
+              {addProducts.map((product, index) => (
+                <li key={`${product._id}-${index}`} className={css.productInfo}>
+                  <p className={css.listStyle}>{product.product}</p>
+                  <p className={css.listStyle}>{product.quantity} g</p>
+                  <p className={css.listStyle}>{product.newCalories} kcal</p>
+                  <CloseRoundedIcon
+                    sx={{
+                      color: '#9B9FAA',
+                      fontSize: 'medium',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => handleRemoveProduct(product._id)}
+                  />
+                </li>
+              ))}
+            </MenuList>
+          )}
         </List>
       </Box>
     </div>

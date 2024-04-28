@@ -25,7 +25,9 @@ export const Calculator = () => {
   console.log('NotAllowedProducts:', notAllowedProducts);
 
   const renderProductList = () => {
-    return notAllowedProducts.map(product => <li key={product}>{product}</li>);
+    return notAllowedProducts.map((product, index) => (
+      <li key={`${product}_${index}`}>{product}</li>
+    ));
   };
 
   return (
@@ -204,7 +206,7 @@ export const Calculator = () => {
         >
           Food not recommended
         </Typography>
-        {notAllowedProducts ? (
+        {notAllowedProducts && notAllowedProducts.length > 0 ? (
           <MenuList
             sx={{
               width: '330px',

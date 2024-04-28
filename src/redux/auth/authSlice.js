@@ -81,7 +81,7 @@ export const logoutUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async ({ email, password, thunkAPI }, { rejectWithValue }) => {
+  async ({ email, password, thunkAPI }) => {
     try {
       const response = await axios.post('/users/login', { email, password });
       console.log(response);
@@ -366,7 +366,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.status = 'succeeded';
         state.user = action.payload;
-        state.error = null; // Set error to null upon successful update
+        state.error = null;
       })
       .addCase(updateUser.rejected, (state, action) => {
         console.log('State before updateUser.rejected:', JSON.stringify(state));

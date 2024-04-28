@@ -5,8 +5,10 @@ import { Typography, Box, MenuList } from '@mui/material';
 import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded';
 import { Diary } from 'components/Diary/Diary';
 import { Calculator } from 'components/Calculator/Calculator';
+import { useSelector } from 'react-redux';
 
 export const DiaryPage = () => {
+  const allowedProductsAll = useSelector(state => state.allowedProductsAll);
   return (
     <div className={css.calcPage}>
       <Box>
@@ -76,7 +78,7 @@ export const DiaryPage = () => {
           </MenuList>
         </Box>
 
-        <Diary />
+        <Diary allowedProductsAll={allowedProductsAll} />
       </Box>
       <Box>
         <Calculator />

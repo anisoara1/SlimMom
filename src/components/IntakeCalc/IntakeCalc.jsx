@@ -268,7 +268,7 @@ export const IntakeCalc = () => {
                 }}
                 aria-labelledby="demo-radio-buttons-group-label"
                 name="bloodType"
-                value={formData.bloodType} // Set the value prop to control the selected value
+                value={formData.bloodType}
               />
 
               <RadioGroup
@@ -280,7 +280,7 @@ export const IntakeCalc = () => {
                   gap: '10px',
                 }}
                 name="bloodType"
-                value={formData.bloodType} // Set the value of the radio group to the selected value
+                value={formData.bloodType}
                 onChange={handleChangeRadio}
               >
                 <FormControlLabel

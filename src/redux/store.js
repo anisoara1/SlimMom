@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { authReducer } from './auth/authSlice';
+import { myProductsReducer } from './myProducts/myProductsSlice';
 
 const saveState = () => {
   try {
@@ -25,6 +26,7 @@ const loadState = () => {
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    myproducts: myProductsReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
