@@ -47,8 +47,7 @@ export const Calculator = () => {
   };
 
   const myProductsState = useSelector(state => state.myproducts);
-  const products =
-    myProductsState.products && myProductsState.products.products;
+  const products = myProductsState.products.products;
   console.log('myProductsState:', myProductsState);
   console.log('products:', products);
   const newCaloriesArray = products.map(product => product.newCalories);
