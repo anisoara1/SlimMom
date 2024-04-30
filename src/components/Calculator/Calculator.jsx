@@ -53,10 +53,10 @@ export const Calculator = () => {
   console.log('products:', products);
   const newCaloriesArray = products?.map(product => product.newCalories);
   console.log('newCaloriesArray:', newCaloriesArray);
-  const allCalories = newCaloriesArray.reduce(
-    (total, allCalories) => total + allCalories,
-    0
-  );
+  const allCalories = newCaloriesArray
+    ? newCaloriesArray.reduce((total, calories) => total + calories, 0)
+    : 0;
+
   const consumed = Math.round(allCalories);
   const left = dailyRate - consumed;
   const consumedPercentage = Math.round((consumed * 100) / dailyRate);
