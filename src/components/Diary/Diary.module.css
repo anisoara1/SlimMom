@@ -8,12 +8,10 @@
 }
 
 .gramsList {
-  min-width: 210px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  padding-right: 10px;
+  gap: 80px;
 }
 
 .list {

@@ -111,8 +111,8 @@ export const Diary = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: '-50px',
-          width: '760px',
+          marginBottom: '-30px',
+          width: '680px',
         }}
       >
         <li>
@@ -145,12 +145,13 @@ export const Diary = () => {
                 autoComplete="off"
                 sx={{
                   width: '428px',
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '700',
-                  fontSize: '14px',
-                  lineHeight: '0.4',
-                  textAlign: 'center',
-                  color: '#9B9FAA',
+                  '& input::placeholder': {
+                    fontFamily: 'Verdana, sans-serif',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    color: '#9B9FAA',
+                    lineHeight: '0.4',
+                  },
 
                   '& .MuiInput-underline:before': {
                     borderBottomColor: '#9B9FAA',
@@ -197,12 +198,14 @@ export const Diary = () => {
               value={formData.quantity}
               onChange={handleChange}
               sx={{
+                '& input::placeholder': {
+                  fontFamily: 'Verdana, sans-serif',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  color: '#9B9FAA',
+                  lineHeight: '0.4',
+                },
                 maxWidth: '100px',
-                fontFamily: 'Verdana, sans-serif',
-                fontWeight: '700',
-                fontSize: '14px',
-                lineHeight: '0.4',
-                color: '#9B9FAA',
                 direction: 'rtl',
                 '& .MuiInput-underline:before': {
                   borderBottomColor: '#9B9FAA',
