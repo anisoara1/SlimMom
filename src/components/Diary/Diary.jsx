@@ -291,7 +291,7 @@ export const Diary = () => {
               {myProductsState.loading && (
                 <CircularProgress sx={{ color: '#FC842D' }} />
               )}
-              {addProducts.map((product, index) => (
+              {addProducts?.map((product, index) => (
                 <li key={`${product._id}-${index}`} className={css.productInfo}>
                   <p className={css.firstListStyle}>{product.product}</p>
                   <div className={css.list}>
