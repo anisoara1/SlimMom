@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import css from '../IntakeCalc/IntakeCalc.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   FormControl,
@@ -17,8 +17,11 @@ import {
   fetchGetProducts,
   getName,
 } from '../../redux/auth/authSlice';
+import { fetchAllProducts } from '../../redux/products/productsSlice';
+/* import { clearMyUser } from '../../redux/auth/authSlice'; */
 
 export const IntakeCalc = () => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     height: '',
@@ -28,7 +31,16 @@ export const IntakeCalc = () => {
     bloodType: '',
   });
 
-  const dispatch = useDispatch();
+  const [modalDailyRate, setModalDailyRate] = useState(null);
+  const [filteredCategories, setFilteredCategories] = useState([]);
+
+  const productsState = useSelector(state => state.products);
+  console.log('productsState:', productsState);
+  const products = productsState.products;
+  console.log('allProducts:', products);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+  console.log('isLoggedIn:', isLoggedIn);
 
   const handleOpen = () => {
     setOpen(true);
@@ -42,13 +54,52 @@ export const IntakeCalc = () => {
     setFormData({ ...formData, bloodType: e.target.value });
   };
 
+  /*  const handleClearMyUser = () => {
+    dispatch(clearMyUser());
+  }; */
+
   const handleSubmit = async e => {
     e.preventDefault();
-    await dispatch(updateUser(formData));
 
-    await dispatch(fetchGetProducts());
-    await dispatch(getName());
-    setOpen(false);
+    if (isLoggedIn === false) {
+      await dispatch(fetchAllProducts());
+      const modalDailyRate = Math.floor(
+        1500 +
+          (10 * formData.currentWeight +
+            6.25 * formData.height -
+            5 * formData.age -
+            161 -
+            10 * (formData.currentWeight - formData.desiredWeight))
+      );
+
+      console.log('formData:', formData);
+      console.log('modalDailyRate:', modalDailyRate);
+
+      console.log('formData.bloodType:', formData.bloodType);
+      const filteredCategories = [
+        ...new Set(
+          products
+            .filter(
+              product =>
+                product.groupBloodNotAllowed[parseInt(formData.bloodType)] ===
+                  true && product.categories
+            )
+            .slice(0, 5)
+            .map(product => product.categories)
+        ),
+      ];
+      console.log('filteredProducts:', filteredCategories);
+      setModalDailyRate(modalDailyRate);
+      setFilteredCategories(filteredCategories);
+    }
+
+    setOpen(true);
+    if (isLoggedIn) {
+      await dispatch(updateUser(formData));
+      await dispatch(fetchGetProducts());
+      await dispatch(getName());
+      setOpen(false);
+    }
     setFormData({
       height: '',
       age: '',
@@ -70,6 +121,20 @@ export const IntakeCalc = () => {
           gap: '15px',
         }}
       >
+        {/*     <Button
+          sx={{
+            width: '100px',
+            fontSize: 'smaller',
+            textTransform: 'lowercase',
+            borderRadius: ' 50%',
+            border: '1px solid #212121',
+
+            color: '#212121',
+          }}
+          onClick={handleClearMyUser}
+        >
+          Clear My Auth State
+        </Button> */}
         <Typography
           sx={{
             fontFamily: 'Verdana, sans-serif',
@@ -382,7 +447,12 @@ export const IntakeCalc = () => {
             Start losing weight
           </Typography>
         </Button>
-        <IntakeModal open={open} handleClose={() => setOpen(false)} />
+        <IntakeModal
+          open={open}
+          handleClose={() => setOpen(false)}
+          modalDailyRate={modalDailyRate}
+          filteredCategories={filteredCategories}
+        />
       </Box>
     </form>
   );

@@ -4,7 +4,14 @@ import { Link } from 'react-router-dom';
 import { Typography, Box, Button, Modal, Fade, MenuList } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-export const IntakeModal = ({ open, handleClose }) => {
+export const IntakeModal = ({
+  open,
+  handleClose,
+  modalDailyRate,
+  filteredCategories,
+}) => {
+  console.log('modalDailyRate:', modalDailyRate);
+  console.log('filteredCategories:', filteredCategories);
   return (
     <div>
       <Modal
@@ -60,7 +67,7 @@ export const IntakeModal = ({ open, handleClose }) => {
                   color: '#264061',
                 }}
               >
-                .....
+                {modalDailyRate} {/* Display the modalDailyRate here */}
               </span>
               <span
                 sx={{
@@ -94,50 +101,20 @@ export const IntakeModal = ({ open, handleClose }) => {
               >
                 Foods you should not eat
               </Typography>
-              <Typography
-                sx={{
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                }}
-              >
-                1. Flour products{' '}
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                }}
-              >
-                2. Milk
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                }}
-              >
-                3. Red meat{' '}
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: 'Verdana, sans-serif',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                  letterSpacing: '0.04em',
-                  color: '#9b9faa',
-                }}
-              >
-                4. Smoked meats
-              </Typography>
+              {filteredCategories.map((product, index) => (
+                <Typography
+                  key={index}
+                  sx={{
+                    fontFamily: 'Verdana, sans-serif',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                    letterSpacing: '0.04em',
+                    color: '#9b9faa',
+                  }}
+                >
+                  {index + 1}. {product}
+                </Typography>
+              ))}
             </MenuList>
             <Button
               sx={{
@@ -154,7 +131,7 @@ export const IntakeModal = ({ open, handleClose }) => {
                 },
               }}
               component={Link}
-              to="/login"
+              to="/register"
             >
               <Typography
                 sx={{

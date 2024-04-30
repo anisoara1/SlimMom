@@ -3,6 +3,12 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:4000/api/';
 
+export const CLEAR_MY_USER = 'auth/clear';
+
+export const clearMyUser = () => ({
+  type: CLEAR_MY_USER,
+});
+
 const setAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
@@ -323,7 +329,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.error = null;
-        state.isLoggedIn = true;
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
         console.log(
@@ -414,6 +419,13 @@ const authSlice = createSlice({
         console.log('State before getName.fulfilled:', JSON.stringify(state));
         state.loading = false;
         state.error = action.payload?.message || 'Failed to fetch products';
+      })
+      .addCase(CLEAR_MY_USER, state => {
+        state.loading = false;
+        state.error = null;
+        state.products = [];
+        state.user = null;
+        state.isLoggedIn = false;
       });
   },
 });

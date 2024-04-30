@@ -14,12 +14,11 @@ import {
 } from '@mui/material';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import AddIcon from '@mui/icons-material/Add';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {
   saveProductData,
-  /*  clearMyProducts, */
+  /*   clearMyProducts, */
   removeProduct,
 } from '../../redux/myProducts/myProductsSlice';
 
@@ -57,10 +56,10 @@ export const Diary = () => {
     setFormData({ product: '', quantity: '' });
   };
 
-  /* const handleClearMyProducts = () => {
+  /*   const handleClearMyProducts = () => {
     dispatch(clearMyProducts());
-  }; */
-
+  };
+ */
   const handleRemoveProduct = productId => {
     dispatch(removeProduct(productId));
   };
@@ -109,7 +108,7 @@ export const Diary = () => {
           padding: '0 20px 0 20px',
           display: 'flex',
           flexDirection: 'row',
-          alignItems: 'center',
+          alignItems: 'flex-end',
           justifyContent: 'space-between',
           marginBottom: '-30px',
           width: '680px',
@@ -133,7 +132,17 @@ export const Diary = () => {
               })
             }
             renderOption={(props, option) => (
-              <Box component="li" {...props}>
+              <Box
+                component="li"
+                sx={{
+                  fontFamily: 'Verdana, sans-serif',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  color: '#9B9FAA',
+                  lineHeight: '0.4',
+                }}
+                {...props}
+              >
                 {option.title}
               </Box>
             )}
@@ -157,6 +166,11 @@ export const Diary = () => {
                     borderBottomColor: '#9B9FAA',
                     maxWidth: '428px',
                   },
+                  '& .MuiSvgIcon-root': {
+                    fill: '#9B9FAA',
+                    fontSize: 'small',
+                  },
+
                   '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
                     borderBottomColor: '#9B9FAA',
                     maxWidth: '428px',
@@ -169,11 +183,12 @@ export const Diary = () => {
                 disableunderline="true"
                 inputProps={{
                   style: {
+                    stoke: '#9B9FAA',
                     fontFamily: 'Verdana, sans-serif',
-                    fontWeight: '400',
+                    fontWeight: '700',
                     fontSize: '14px',
-                    letterSpacing: '0.04em',
-                    color: '#212121',
+                    color: '#9B9FAA',
+                    lineHeight: '0.4',
                   },
                   ...params.inputProps,
                   autoComplete: 'new-password',
@@ -197,6 +212,15 @@ export const Diary = () => {
               name="quantity"
               value={formData.quantity}
               onChange={handleChange}
+              InputProps={{
+                style: {
+                  fontFamily: 'Verdana, sans-serif',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  color: '#9B9FAA',
+                  lineHeight: '0.4',
+                },
+              }}
               sx={{
                 '& input::placeholder': {
                   fontFamily: 'Verdana, sans-serif',
@@ -261,7 +285,7 @@ export const Diary = () => {
             width: '100%',
             bgcolor: 'background.paper',
             overflow: 'auto',
-            height: 220,
+            height: 250,
             position: 'relative',
             '&::-webkit-scrollbar': {
               width: '7px',
@@ -289,6 +313,7 @@ export const Diary = () => {
                 fontSize: '14px',
                 letterSpacing: '0.04em',
                 color: '#212121',
+                marginRight: '30px',
               }}
             >
               {myProductsState.loading && (

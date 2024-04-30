@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { authReducer } from './auth/authSlice';
 import { myProductsReducer } from './myProducts/myProductsSlice';
+import { productsReducer } from './products/productsSlice';
 
 const saveState = () => {
   try {
@@ -27,6 +28,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     myproducts: myProductsReducer,
+    products: productsReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

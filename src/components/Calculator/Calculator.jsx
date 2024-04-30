@@ -9,7 +9,6 @@ import { logoutUser } from '../../redux/auth/authSlice';
 export const Calculator = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
-  const authState = useSelector(state => state.auth);
 
   const handleLogout = () => {
     console.log('Logout button clicked');
@@ -17,8 +16,15 @@ export const Calculator = () => {
     dispatch(logoutUser());
     history('/SlimMom');
   };
-
+  const authState = useSelector(state => state.auth);
   const user = authState.user && authState.user.data;
+  const name = user && user.name;
+  const avatarUrl = user && user.avatarUrl;
+  const notAllowedProducts = user?.infouser?.notAllowedProducts;
+  console.log('NotAllowedProducts:', notAllowedProducts);
+
+  const dailyRate = user?.infouser?.dailyRate;
+
   const originalDate = user && user.currentDate;
   const formattedDate = new Date(originalDate)
     .toLocaleDateString('en-GB', {
@@ -28,13 +34,7 @@ export const Calculator = () => {
     })
     .split('/')
     .join('.');
-
   console.log(formattedDate);
-  const name = user && user.name;
-  const avatarUrl = user && user.avatarUrl;
-  const notAllowedProducts = user?.infouser?.notAllowedProducts;
-  console.log('NotAllowedProducts:', notAllowedProducts);
-  const dailyRate = user?.infouser?.dailyRate;
 
   const renderProductList = () => {
     if (!notAllowedProducts || notAllowedProducts.length === 0) {
