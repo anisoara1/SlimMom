@@ -51,7 +51,10 @@ export const Calculator = () => {
     myProductsState.products && myProductsState.products.products;
   console.log('myProductsState:', myProductsState);
   console.log('products:', products);
-  const newCaloriesArray = products?.map(product => product.newCalories);
+  const newCaloriesArray = products
+    ? products.map(product => product.newCalories)
+    : [];
+
   console.log('newCaloriesArray:', newCaloriesArray);
   const allCalories = newCaloriesArray
     ? newCaloriesArray.reduce((total, calories) => total + calories, 0)
