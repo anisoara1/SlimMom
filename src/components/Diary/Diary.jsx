@@ -33,7 +33,7 @@ export const Diary = () => {
   const addProducts =
     myProductsState.products && myProductsState.products.products;
   console.log('myProductsState:', myProductsState);
-  const originalDate = myProductsState.products.date;
+  const originalDate = user && user.currentDate;
   const formattedDate = new Date(originalDate)
     .toLocaleDateString('en-GB', {
       day: '2-digit',
@@ -42,8 +42,6 @@ export const Diary = () => {
     })
     .split('/')
     .join('.');
-
-  console.log(formattedDate);
 
   const [formData, setFormData] = useState({
     product: '',
@@ -274,9 +272,6 @@ export const Diary = () => {
           }}
           subheader={<li />}
         >
-          {myProductsState.loading && (
-            <CircularProgress sx={{ color: '#FC842D' }} />
-          )}
           {addProducts && addProducts.length > 0 && (
             <MenuList
               sx={{
