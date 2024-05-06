@@ -67,7 +67,7 @@ export const IntakeModal = ({
                   color: '#264061',
                 }}
               >
-                {modalDailyRate} {/* Display the modalDailyRate here */}
+                {modalDailyRate}
               </span>
               <span
                 sx={{

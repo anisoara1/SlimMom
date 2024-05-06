@@ -129,11 +129,12 @@ const myProductsSlice = createSlice({
         state.loading = false;
         state.error = null;
         const productIdToRemove = action.payload;
-        state.products.products = state.products.products.filter(
-          product => product._id !== productIdToRemove
-        );
+        state.products.dates.forEach(date => {
+          date.products = date.products.filter(
+            product => product._id !== productIdToRemove
+          );
+        });
       })
-
       .addCase(CLEAR_MY_PRODUCTS, state => {
         state.loading = false;
         state.error = null;

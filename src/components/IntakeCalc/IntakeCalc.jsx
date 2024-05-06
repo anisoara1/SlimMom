@@ -18,6 +18,8 @@ import {
   getName,
 } from '../../redux/auth/authSlice';
 import { fetchAllProducts } from '../../redux/products/productsSlice';
+import { useNavigate } from 'react-router-dom';
+
 /* import { clearMyUser } from '../../redux/auth/authSlice'; */
 
 export const IntakeCalc = () => {
@@ -41,7 +43,7 @@ export const IntakeCalc = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   console.log('isLoggedIn:', isLoggedIn);
-
+  const navigate = useNavigate();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -54,10 +56,10 @@ export const IntakeCalc = () => {
     setFormData({ ...formData, bloodType: e.target.value });
   };
 
-  /*  const handleClearMyUser = () => {
+  /*   const handleClearMyUser = () => {
     dispatch(clearMyUser());
-  }; */
-
+  };
+ */
   const handleSubmit = async e => {
     e.preventDefault();
 
@@ -99,6 +101,7 @@ export const IntakeCalc = () => {
       await dispatch(fetchGetProducts());
       await dispatch(getName());
       setOpen(false);
+      navigate('/diary');
     }
     setFormData({
       height: '',
@@ -121,7 +124,7 @@ export const IntakeCalc = () => {
           gap: '15px',
         }}
       >
-        {/*     <Button
+        {/*        <Button
           sx={{
             width: '100px',
             fontSize: 'smaller',

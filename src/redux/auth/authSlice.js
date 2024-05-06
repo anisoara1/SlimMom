@@ -13,7 +13,6 @@ const setAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-// To remove JWT
 const clearAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };

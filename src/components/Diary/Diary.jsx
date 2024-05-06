@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import css from '../Diary/Diary.module.css';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
-  Typography,
+  /* Typography, */
   Box,
   List,
   Fab,
@@ -10,9 +10,8 @@ import {
   TextField,
   MenuList,
   Autocomplete,
-  /* Button, */
+  /*   Button, */
 } from '@mui/material';
-import DateRangeIcon from '@mui/icons-material/DateRange';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector, useDispatch } from 'react-redux';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
@@ -21,6 +20,10 @@ import {
   /*   clearMyProducts, */
   removeProduct,
 } from '../../redux/myProducts/myProductsSlice';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 export const Diary = () => {
   const authState = useSelector(state => state.auth);
@@ -29,18 +32,13 @@ export const Diary = () => {
   const dispatch = useDispatch();
 
   const myProductsState = useSelector(state => state.myproducts);
-  const addProducts =
-    myProductsState.products && myProductsState.products.products;
+  const dates = myProductsState.products && myProductsState.products.dates;
+  const addProducts = dates ? dates.flatMap(date => date.products) : [];
+
   console.log('myProductsState:', myProductsState);
-  const originalDate = user && user.currentDate;
-  const formattedDate = new Date(originalDate)
-    .toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-    .split('/')
-    .join('.');
+
+  console.log('addProducts:', addProducts);
+  const currentDate = dayjs();
 
   const [formData, setFormData] = useState({
     product: '',
@@ -56,17 +54,17 @@ export const Diary = () => {
     setFormData({ product: '', quantity: '' });
   };
 
-  /*   const handleClearMyProducts = () => {
+  /*  const handleClearMyProducts = () => {
     dispatch(clearMyProducts());
-  };
- */
+  }; */
+
   const handleRemoveProduct = productId => {
     dispatch(removeProduct(productId));
   };
 
   return (
     <div className={css.diary}>
-      {/* <Button
+      {/*       <Button
         sx={{
           width: '100px',
           fontSize: 'smaller',
@@ -90,19 +88,55 @@ export const Diary = () => {
           marginBottom: '-50px',
         }}
       >
-        <Typography
-          sx={{
-            fontFamily: 'Verdana, sans-serif',
-            fontWeight: '700',
-            fontSize: '34px',
-            textAlign: 'center',
-            color: '#212121',
-          }}
-        >
-          {formattedDate}
-        </Typography>
-        <DateRangeIcon sx={{ color: '#9B9FAA', fontSize: 'medium' }} />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            slotProps={{
+              textField: {
+                variant: 'standard',
+                InputProps: { disableUnderline: true },
+              },
+            }}
+            format="DD.MM.YYYY"
+            value={currentDate}
+            sx={{
+              width: '428px',
+              '& input::placeholder': {
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '700',
+                fontSize: '34px',
+                textAlign: 'center',
+                color: '#121212',
+              },
+              '& .MuiFormControl-root-MuiTextField-root': {
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '700',
+                fontSize: '34px',
+                textAlign: 'center',
+                color: '#121212',
+              },
+              '& .MuiInputBase-root': {
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '700',
+                fontSize: '34px',
+                textAlign: 'center',
+                color: '#121212',
+              },
+              '& .MuiTextField-root': {
+                fontFamily: 'Verdana, sans-serif',
+                fontWeight: '700',
+                fontSize: '34px',
+                textAlign: 'center',
+                color: '#121212',
+              },
+              '& .MuiSvgIcon-root': {
+                fill: '#9B9FAA',
+                fontSize: 'small',
+              },
+            }}
+          />
+        </LocalizationProvider>
       </Box>
+
       <MenuList
         sx={{
           padding: '0 20px 0 20px',

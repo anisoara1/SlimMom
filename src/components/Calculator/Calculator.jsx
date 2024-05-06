@@ -47,8 +47,8 @@ export const Calculator = () => {
   };
 
   const myProductsState = useSelector(state => state.myproducts);
-  const products =
-    myProductsState.products && myProductsState.products.products;
+  const dates = myProductsState.products && myProductsState.products.dates;
+  const products = dates ? dates.flatMap(date => date.products) : [];
   console.log('myProductsState:', myProductsState);
   console.log('products:', products);
   const newCaloriesArray = products
