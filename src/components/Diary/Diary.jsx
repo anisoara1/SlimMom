@@ -10,14 +10,14 @@ import {
   TextField,
   MenuList,
   Autocomplete,
-  /*   Button, */
+  Button,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector, useDispatch } from 'react-redux';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {
   saveProductData,
-  /*   clearMyProducts, */
+  clearMyProducts,
   removeProduct,
 } from '../../redux/myProducts/myProductsSlice';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,19 +26,22 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 export const Diary = () => {
+  const dispatch = useDispatch();
   const authState = useSelector(state => state.auth);
   const user = authState.user && authState.user.data;
+  console.log('userState:', user);
   const allowedProductsAll = user?.infouser?.allowedProductsAll;
-  const dispatch = useDispatch();
 
   const myProductsState = useSelector(state => state.myproducts);
   const dates = myProductsState.products && myProductsState.products.dates;
   const addProducts = dates ? dates.flatMap(date => date.products) : [];
-
   console.log('myProductsState:', myProductsState);
-
   console.log('addProducts:', addProducts);
+
   const currentDate = dayjs();
+  console.log('currentDate:', currentDate);
+  const [selectedDate, setSelectedDate] = useState(currentDate);
+  console.log('selectedDate:', selectedDate);
 
   const [formData, setFormData] = useState({
     product: '',
@@ -54,17 +57,33 @@ export const Diary = () => {
     setFormData({ product: '', quantity: '' });
   };
 
-  /*  const handleClearMyProducts = () => {
+  const handleClearMyProducts = () => {
     dispatch(clearMyProducts());
-  }; */
+  };
 
   const handleRemoveProduct = productId => {
     dispatch(removeProduct(productId));
   };
 
+  const handleChangeDate = date => {
+    setSelectedDate(date);
+  };
+
+  const selectedDateProducts =
+    myProductsState.products && myProductsState.products.dates
+      ? myProductsState.products.dates.find(date =>
+          dayjs(date.date).isSame(selectedDate, 'day')
+        )
+      : null;
+
+  const filteredProducts = selectedDateProducts
+    ? selectedDateProducts.products
+    : [];
+
+  console.log(' filteredProducts:', filteredProducts);
   return (
     <div className={css.diary}>
-      {/*       <Button
+      <Button
         sx={{
           width: '100px',
           fontSize: 'smaller',
@@ -77,7 +96,7 @@ export const Diary = () => {
         onClick={handleClearMyProducts}
       >
         Clear My Products State
-      </Button> */}
+      </Button>
       <Box
         sx={{
           padding: '40px 0 0 20px',
@@ -97,7 +116,8 @@ export const Diary = () => {
               },
             }}
             format="DD.MM.YYYY"
-            value={currentDate}
+            value={selectedDate}
+            onChange={handleChangeDate}
             sx={{
               width: '428px',
               '& input::placeholder': {
@@ -333,7 +353,7 @@ export const Diary = () => {
           }}
           subheader={<li />}
         >
-          {addProducts && addProducts.length > 0 && (
+          {filteredProducts && filteredProducts.length > 0 ? (
             <MenuList
               sx={{
                 marginLeft: '20px',
@@ -353,7 +373,7 @@ export const Diary = () => {
               {myProductsState.loading && (
                 <CircularProgress sx={{ color: '#FC842D' }} />
               )}
-              {addProducts?.map((product, index) => (
+              {filteredProducts?.map((product, index) => (
                 <li key={`${product._id}-${index}`} className={css.productInfo}>
                   <p className={css.firstListStyle}>{product.product}</p>
                   <div className={css.list}>
@@ -371,6 +391,8 @@ export const Diary = () => {
                 </li>
               ))}
             </MenuList>
+          ) : (
+            <li>No products for selected date</li>
           )}
         </List>
       </Box>

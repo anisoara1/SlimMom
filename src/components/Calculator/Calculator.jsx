@@ -24,8 +24,12 @@ export const Calculator = () => {
   console.log('NotAllowedProducts:', notAllowedProducts);
 
   const dailyRate = user?.infouser?.dailyRate;
+  const originalDate = new Date('2024-05-06');
+  const currentDateWithTime = new Date(
+    originalDate.setUTCHours(0, 0, 0, 0)
+  ).toISOString();
+  console.log('currentDateWithTime:', currentDateWithTime);
 
-  const originalDate = user && user.currentDate;
   const formattedDate = new Date(originalDate)
     .toLocaleDateString('en-GB', {
       day: '2-digit',
@@ -34,7 +38,7 @@ export const Calculator = () => {
     })
     .split('/')
     .join('.');
-  console.log(formattedDate);
+  console.log('formattedDate:', formattedDate);
 
   const renderProductList = () => {
     if (!notAllowedProducts || notAllowedProducts.length === 0) {
@@ -51,8 +55,22 @@ export const Calculator = () => {
   const products = dates ? dates.flatMap(date => date.products) : [];
   console.log('myProductsState:', myProductsState);
   console.log('products:', products);
-  const newCaloriesArray = products
-    ? products.map(product => product.newCalories)
+
+  const currentDateProducts = dates.filter(entry => {
+    return entry.date === currentDateWithTime;
+  });
+
+  if (currentDateProducts.length > 0) {
+    console.log('Products for current date:', currentDateProducts);
+  } else {
+    console.log('No products found for current date');
+  }
+  console.log('currentDateProducts:', currentDateProducts);
+
+  const newCaloriesArray = currentDateProducts
+    ? currentDateProducts.flatMap(product =>
+        product.products.map(p => p.newCalories)
+      )
     : [];
 
   console.log('newCaloriesArray:', newCaloriesArray);
