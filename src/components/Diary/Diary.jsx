@@ -10,14 +10,14 @@ import {
   TextField,
   MenuList,
   Autocomplete,
-  Button,
+  /*  Button, */
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector, useDispatch } from 'react-redux';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {
   saveProductData,
-  clearMyProducts,
+  /* clearMyProducts, */
   removeProduct,
 } from '../../redux/myProducts/myProductsSlice';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -57,9 +57,9 @@ export const Diary = () => {
     setFormData({ product: '', quantity: '' });
   };
 
-  const handleClearMyProducts = () => {
+  /*   const handleClearMyProducts = () => {
     dispatch(clearMyProducts());
-  };
+  }; */
 
   const handleRemoveProduct = productId => {
     dispatch(removeProduct(productId));
@@ -83,7 +83,7 @@ export const Diary = () => {
   console.log(' filteredProducts:', filteredProducts);
   return (
     <div className={css.diary}>
-      <Button
+      {/*     <Button
         sx={{
           width: '100px',
           fontSize: 'smaller',
@@ -96,7 +96,7 @@ export const Diary = () => {
         onClick={handleClearMyProducts}
       >
         Clear My Products State
-      </Button>
+      </Button> */}
       <Box
         sx={{
           padding: '40px 0 0 20px',
