@@ -5,6 +5,8 @@ import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/auth/authSlice';
+import { clearMyUser } from '../../redux/auth/authSlice';
+import { clearMyProducts } from '../../redux/myProducts/myProductsSlice';
 
 export const Calculator = () => {
   const dispatch = useDispatch();
@@ -15,6 +17,8 @@ export const Calculator = () => {
     console.log('State before logout:', authState);
     dispatch(logoutUser());
     history('/SlimMom');
+    dispatch(clearMyUser());
+    dispatch(clearMyProducts());
   };
   const authState = useSelector(state => state.auth);
   const user = authState.user && authState.user.data;
