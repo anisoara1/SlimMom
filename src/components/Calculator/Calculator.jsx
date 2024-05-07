@@ -60,8 +60,9 @@ export const Calculator = () => {
   console.log('myProductsState:', myProductsState);
   console.log('products:', products);
 
-  const currentDateProducts = dates.filter(entry => {
-    return entry.date === currentDateWithTime;
+  const currentDateProducts = useSelector(state => {
+    const dates = state.myproducts.products?.dates;
+    return dates?.filter(entry => entry.date === currentDateWithTime);
   });
 
   if (currentDateProducts.length > 0) {
