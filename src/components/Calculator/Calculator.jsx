@@ -55,16 +55,22 @@ export const Calculator = () => {
   };
 
   const myProductsState = useSelector(state => state.myproducts);
-  const dates = myProductsState.products && myProductsState.products.dates;
+  const dates = myProductsState.products && myProductsState.products?.dates;
   const products = dates ? dates.flatMap(date => date.products) : [];
   console.log('myProductsState:', myProductsState);
   console.log('products:', products);
 
   const currentDateProducts = useSelector(state => {
     const dates = state.myproducts.products?.dates;
-    return dates?.filter(entry => entry.date === currentDateWithTime);
+    if (!dates) {
+      console.log('No dates found in the state');
+      return [];
+    }
+    return dates.filter(entry => entry.date === currentDateWithTime);
   });
 
+  console.log('dates:', dates);
+  console.log('currentDateWithTime:', currentDateWithTime);
   if (!currentDateProducts) {
     console.log('No products found for current date');
     return null;
