@@ -65,10 +65,9 @@ export const Calculator = () => {
     return dates?.filter(entry => entry.date === currentDateWithTime);
   });
 
-  if (currentDateProducts.length > 0) {
-    console.log('Products for current date:', currentDateProducts);
-  } else {
+  if (!currentDateProducts) {
     console.log('No products found for current date');
+    return null;
   }
   console.log('currentDateProducts:', currentDateProducts);
 
