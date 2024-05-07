@@ -28,7 +28,7 @@ export const Calculator = () => {
   console.log('NotAllowedProducts:', notAllowedProducts);
 
   const dailyRate = user?.infouser?.dailyRate;
-  const originalDate = new Date('2024-05-06');
+  const originalDate = new Date();
   const currentDateWithTime = new Date(
     originalDate.setUTCHours(0, 0, 0, 0)
   ).toISOString();
